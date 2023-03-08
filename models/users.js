@@ -32,8 +32,20 @@ const userSchema = Schema(
     avatarURL: {
       type: String,
       required: false,
+      default: "",
     },
-    acessToken: String,
+    accessToken: String,
+
+    // customRecipes: {
+    //   type: [String],
+    //   required: false,
+    //   default: [], // an array of _ids at customRecipes table mondoDB
+    // },
+    favoriteRecipes: {
+      type: [String],
+      required: false,
+      default: [], // an array of ids at www.themealdb.com/api/json/v1/1/lookup.php?i={id}
+    },
   },
   { timestamps: true }
 );
