@@ -18,10 +18,7 @@ const userSchema = Schema(
   {
     name: {
       type: String,
-      required: false,
-      default: function () {
-        return this.email;
-      },
+      required: true,
     },
     password: {
       type: String,
@@ -36,7 +33,7 @@ const userSchema = Schema(
       type: String,
       required: false,
     },
-    token: String,
+    acessToken: String,
   },
   { timestamps: true }
 );

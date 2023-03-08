@@ -9,18 +9,21 @@ const { SECRET_KEY } = process.env;
 
 const auth = async (req, res, next) => {
   const { authorization = "" } = req.headers; // = "" if headers doesn't contain authorization
-  const [bearer, token] =
+  const [bearer, accessToken] =
     authorization.split(" ");
   if (bearer !== "Bearer") {
     next(HttpError(401, "Not authorized"));
   }
   try {
-    const { id } = jwt.verify(token, SECRET_KEY);
+    const { id } = jwt.verify(
+      accessToken,
+      SECRET_KEY
+    );
     const user = await User.findById(id);
     if (
       !user ||
-      !user.token ||
-      user.token !== token
+      !user.accessToken ||
+      user.accessToken !== accessToken
     ) {
       next(HttpError(401, "Not authorized"));
     }
