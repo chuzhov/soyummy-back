@@ -1,11 +1,7 @@
-const axios = require('axios');
-
-const BASE_URL = 'https://themealdb.com/api/json/v1/1'
-
-// www.themealdb.com/api/json/v1/1/filter.php?i=chicken_breast
+const instance = require('../../helpers/instance')
 
 const fetchAll = async (req, res) => {
-  await axios.get(`${BASE_URL}/list.php?i=list`) 
+  await instance.get(`/list.php?i=list`) 
     .then(response => {
       res.send(response.data);
     })
