@@ -46,6 +46,11 @@ const userSchema = Schema(
       required: false,
       default: [], // an array of ids at www.themealdb.com/api/json/v1/1/lookup.php?i={id}
     },
+    subscribed: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
   },
   { timestamps: true }
 );
