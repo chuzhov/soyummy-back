@@ -1,17 +1,18 @@
 const router = require('express').Router();
+const auth = require('../../middlewares/auth');
 const {
   categoryList,
   categoryMeals,
   categoryLimit,
   categoryId,
-} = require('../../controllers/pages/recipes');
+} = require('../../controllers/recipes/recipes');
 
-router.get('/category/list', categoryList);
+router.get('/category/list', auth, categoryList);
 
-router.get('/category', categoryMeals);
+router.get('/category', auth, categoryMeals);
 
-router.get('/:category/:limit', categoryLimit);
+router.get('/:category/:limit', auth, categoryLimit);
 
-router.get('/:id', categoryId);
+router.get('/:id', auth, categoryId);
 
 module.exports = router;
