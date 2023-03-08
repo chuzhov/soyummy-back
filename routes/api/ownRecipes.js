@@ -1,18 +1,18 @@
 const express = require("express");
 
 const {
+  validateBody,
   auth,
 } = require("../../middlewares");
 
 const {
-  ingredients: ctrl,
+  recipes: ctrl,
 } = require("../../controllers/");
 
+const  schema = require("../validation/");
 
 const router = express.Router();
 
-router.get('/list', auth, ctrl.fetchAll);
-
-router.get('/', auth, ctrl.fetchMealByIngredient);
+router.post('/', validateBody(schema.addRecipeSchema), auth, ctrl.addRecipe);
 
 module.exports = router;
