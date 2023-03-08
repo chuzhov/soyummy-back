@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 
 const usersRouter = require("./routes/api/auth");
 const mainRouter = require("./routes/api/mainPage");
+const ingredientsRouter = require('./routes/api/ingredients')
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.set("view engine", "ejs"); // sets EJS as the view engine for the Express ap
 
 app.use("/", mainRouter);
 app.use("/auth", usersRouter);
+app.use("/ingredients", ingredientsRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
