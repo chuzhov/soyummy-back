@@ -1,4 +1,4 @@
-const fetchAll = require("./Ingredients");
+const fetchAll = require("./fetchAll");
 const fetchMealByIngredient = require('./fetchMealByIngredient')
 const ctrlWrapper = require("../ctrlWrapper");
 
