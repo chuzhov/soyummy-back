@@ -1,8 +1,9 @@
+const instance = require("../../helpers/instance")
 
 const fetchMealByIngredient = async (req, res) => {
     const { ingredient } = req.body;
-    const data = await axios.get(`${BASE_URL}/filter.php?i=${ingredient}`)
-        res.send(data);
+    const { data } = await instance.get(`/filter.php?i=${ingredient}`);
+    res.send(data.meals);
 
 };
 
