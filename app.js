@@ -5,12 +5,13 @@ require('dotenv').config();
 
 const bodyParser = require('body-parser');
 
-const usersRouter = require("./routes/api/auth");
-const mainRouter = require("./routes/api/mainPage");
+const usersRouter = require('./routes/api/auth');
+const mainRouter = require('./routes/api/mainPage');
 const ingredientsRouter = require('./routes/api/ingredients');
-const recipesRouter = require("./routes/api/recipes");
-const ownRecipesRouter = require('./routes/api/ownRecipes')
+const recipesRouter = require('./routes/api/recipes');
+const ownRecipesRouter = require('./routes/api/ownRecipes');
 const popularRecipeRouter = require('./routes/api/popularRecipe');
+const favoriteRouter=require("./routes/api/favorite")
 
 const app = express();
 
@@ -23,12 +24,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public')); //allows to get static files from /public folder
 app.set('view engine', 'ejs'); // sets EJS as the view engine for the Express application
 
-app.use("/", mainRouter);
-app.use("/auth", usersRouter);
+app.use('/', mainRouter);
+app.use('/auth', usersRouter);
 app.use('/recipes', recipesRouter);
 app.use('/popular-recipe', popularRecipeRouter);
-app.use("/ingredients", ingredientsRouter);
+app.use('/ingredients', ingredientsRouter);
 app.use('/own-recipes', ownRecipesRouter);
+app.use('/favorite', favoriteRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found' });
