@@ -10,7 +10,7 @@ const addRecipe = async (req, res) => {
     const { ingredients } = req.body;
     const findRecipe = await Recipe.find({ingredients})
     if (findRecipe) {
-        HttpError(409, "Recipe is already created")
+        throw HttpError(409, "Recipe is already created")
     }
     await Recipe.create({ ...recipe, owner: _id});
     res.status(201).send('Recipe created successfully');
