@@ -25,6 +25,8 @@ router.post(
   ctrl.loginUser
 );
 
+router.post("/user-data", auth, ctrl.getUserData);
+
 router.post("/logout", auth, ctrl.logoutUser);
 
 module.exports = router;
