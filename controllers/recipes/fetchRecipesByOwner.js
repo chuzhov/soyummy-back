@@ -10,7 +10,7 @@ const fetchRecipesByOwner = async (req, res) => {
     const skip = (page - 1) * limit;
     const result = await Recipe.find({ owner }, "", {skip, limit}).populate();
     if (!result) {
-            HttpError(404,"Sorry but, you dont have any own recipes")
+            HttpError(404,`Recipes by owner ID: ${_id} not found`)
     }
     res.json(result);
 };
