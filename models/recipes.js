@@ -15,23 +15,7 @@ const recipeSchema = Schema({
     },
     category: {
         type: String,
-        enum: 
-            [
-            "Beef",
-            "Breakfast",
-            "Chicken",
-            "Dessert",
-            "Goat",
-            "Lamb",
-            "Miscellaneous",
-            "Pasta",
-            "Pork",
-            "Seafood",
-            "Side",
-            "Starter",
-            "Vegan",
-            "Vegetarian"
-            ],
+        required: true,
     },
     coockingTime: {
         type: String,
@@ -48,9 +32,14 @@ const recipeSchema = Schema({
                     require: true,
                 }
             }],
-    recipe: {
+    description: {
         type: String,
         required: true,
+    },
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: 'user',
+        required: true
     }
 });
 
