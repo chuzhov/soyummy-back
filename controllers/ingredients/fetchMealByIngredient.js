@@ -1,3 +1,4 @@
+
 const instance = require('../../helpers/instance')
 
 const {
@@ -6,7 +7,7 @@ const {
 
 const fetchMealByIngredient = async (req, res) => {
     const { ingredient } = req.body;
-    const {data} = await instance.get(`/filter.php?i=${ingredient}`)
+    const { data } = await instance.get(`/filter.php?i=${ingredient}`)
     console.log(data.meals)
     if (!data.meals) {
         throw HttpError(404, `Meal by ingredient ${ingredient} not found`);
