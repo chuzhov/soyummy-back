@@ -5,18 +5,15 @@ const {
 } = require("../../routes/errors/HttpErrors");
 
 const addRecipe = async (req, res) => {
-    const { title } = req.body;
-    const recipe = await Recipe.findOne({ title });
-    if (recipe) {
-        throw HttpError(
-            409,
-            `Recipe ${title} is already created`
-        );
+    const {_id} = req.user;
+    const recipe = req.body
+    const { ingredients } = req.body;
+    const findRecipe = await Recipe.find({ingredients})
+    if (findRecipe) {
+        throw HttpError(409, "Recipe is already created")
     }
-    await Recipe.create(req.body);
-    res.json({
-        message: "Recipe created successfully"
-    });
+    await Recipe.create({ ...recipe, owner: _id});
+    res.status(201).send('Recipe created successfully');
 };
 
 module.exports = addRecipe;
