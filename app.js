@@ -5,6 +5,7 @@ require("dotenv").config();
 const bodyParser = require("body-parser");
 const swaggerUi = require("swagger-ui-express");
 
+
 const swaggerDocument = require("./swagger.json");
 const usersRouter = require("./routes/api/auth");
 const mainRouter = require("./routes/api/mainPage");
@@ -12,6 +13,7 @@ const ingredientsRouter = require("./routes/api/ingredients");
 const recipesRouter = require("./routes/api/recipes");
 const ownRecipesRouter = require("./routes/api/ownRecipes");
 const popularRecipeRouter = require("./routes/api/popularRecipe");
+const favoriteRouter=require("./routes/api/favorite");
 
 const app = express();
 
@@ -21,6 +23,7 @@ app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(express.static("public")); //allows to get static files from /public folder
 app.set("view engine", "ejs"); // sets EJS as the view engine for the Express application
 
@@ -31,12 +34,13 @@ app.use("/recipes", recipesRouter);
 app.use("/popular-recipe", popularRecipeRouter);
 app.use("/ingredients", ingredientsRouter);
 app.use("/own-recipes", ownRecipesRouter);
+app.use('/favorite', favoriteRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
 });
 
-//catching mongoose cast error
+// catching mongoose cast error
 app.use((err, req, res, next) => {
   if (err.name === "CastError") {
     return res.status(404).send(err.message);
@@ -44,8 +48,9 @@ app.use((err, req, res, next) => {
   next(err);
 });
 
-//catching mongoose validation error
+// catching mongoose validation error
 app.use((err, req, res, next) => {
+
   if (err.name === "ValidationError") {
     let errors = {};
     Object.keys(err.errors).forEach((key) => {
