@@ -2,7 +2,19 @@ const { Schema, model } = require('mongoose');
 
 const popularSchema = Schema(
   {
-    mealId: {
+    idMeal: {
+      type: String,
+      require: true,
+    },
+    strMeal: {
+      type: String,
+      require: true,
+    },
+    strInstructions: {
+      type: String,
+      require: true,
+    },
+    strMealThumb: {
       type: String,
       require: true,
     },

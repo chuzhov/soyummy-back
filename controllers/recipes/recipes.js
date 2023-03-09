@@ -8,7 +8,9 @@ const instance = axios.create({ baseURL: 'http://www.themealdb.com/api/json/v1/1
 const categoryList = async (req, res, next) => {
   const { data } = await instance.get('/list.php?c=list');
 
-  res.json({ ...data });
+  const flatData = data.meals.flatMap(el => el.strCategory);
+
+  res.json({ meals: flatData });
 };
 
 const categoryMeals = async (req, res, next) => {
@@ -42,12 +44,15 @@ const categoryId = async (req, res, next) => {
   const fullData = data.meals;
 
   if (fullData) {
+    const { idMeal, strMeal, strInstructions, strMealThumb } = fullData[0];
+
     const isPopular = await popularMeals.findOneAndUpdate(
-      { mealId: req.params.id },
+      { idMeal: req.params.id },
       { $inc: { requestCount: 1 } }
     );
+
     if (!isPopular) {
-      await popularMeals.create({ mealId: req.params.id });
+      await popularMeals.create({ idMeal, strMeal, strInstructions, strMealThumb });
     }
     res.json({ ...fullData[0] });
   } else {
