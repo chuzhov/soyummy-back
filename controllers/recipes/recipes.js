@@ -11,7 +11,7 @@ const categoryList = async (req, res, next) => {
 };
 
 const categoryMeals = async (req, res, next) => {
-  const { data } = await instance.get(`/filter.php?c=${req.body.category}`);
+  const { data } = await instance.get(`/filter.php?c=${req.params.categoryName}`);
 
   const meals = data.meals;
 
