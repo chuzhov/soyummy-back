@@ -13,7 +13,5 @@ const fetchMealByIngredient = async (req, res) => {
     }
     
     res.send(data.meals);
-};
-
 
 module.exports = fetchMealByIngredient;
