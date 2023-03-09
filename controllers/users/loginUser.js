@@ -12,7 +12,7 @@ const { SECRET_KEY } = process.env;
 
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
-  // searching for the user with given email:
+  //searching for the user with given email:
   const user = await User.findOne({ email });
   if (!user) {
     throw HttpError(
@@ -20,7 +20,7 @@ const loginUser = async (req, res) => {
       "Email or password is invalid"
     );
   }
-  // comparing given password with a stored hash:
+  //comparing given password with a stored hash:
   const compareResult = await bcrypt.compare(
     password, // a password from a body of the request
     user.password // a password from mongoDB
@@ -31,19 +31,20 @@ const loginUser = async (req, res) => {
       "Email or password is invalid"
     );
   }
-  // user has found, preparing payload id for making a token
+  //user has found, preparing payload id for making a token
   const payload = {
     id: user._id,
   };
-  // creating a token
+  //creating a token
   const accessToken = setToken(payload, SECRET_KEY, accessTokenExpiresIn);
   await User.findByIdAndUpdate(user._id, {
     accessToken,
   });
-  // sending token in responce to frontend
+  //sending token in responce to frontend
   res.json({
     accessToken,
     user: {
+      id: user._id,
       name: user.name,
       email: user.email,
       avatarURL: user.avatarURL,
