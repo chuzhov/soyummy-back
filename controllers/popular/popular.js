@@ -2,13 +2,14 @@ const ctrl = require('../ctrlWrapper');
 const { popularMeals } = require('../../models/popularMeals');
 
 const popular = async (req, res, next) => {
-  const data = await popularMeals.find({}, '-_id -requestCount').sort({ requestCount: -1 });
+  const limit = 10;
 
-  const limitCount = 10;
+  const data = await popularMeals
+    .find({}, '-_id -requestCount')
+    .sort({ requestCount: -1 })
+    .limit(limit);
 
-  const limitedData = data.slice(0, limitCount);
-
-  res.json({ meals: limitedData });
+  res.json({ meals: data });
 };
 
 module.exports = { popular: ctrl(popular) };
