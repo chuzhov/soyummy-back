@@ -8,6 +8,10 @@ const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swagger.json");
 const usersRouter = require("./routes/api/auth");
 const mainRouter = require("./routes/api/mainPage");
+const ingredientsRouter = require("./routes/api/ingredients");
+const recipesRouter = require("./routes/api/recipes");
+const ownRecipesRouter = require("./routes/api/ownRecipes");
+const popularRecipeRouter = require("./routes/api/popularRecipe");
 
 const app = express();
 
@@ -23,6 +27,10 @@ app.set("view engine", "ejs"); // sets EJS as the view engine for the Express ap
 app.use("/", mainRouter);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/auth", usersRouter);
+app.use("/recipes", recipesRouter);
+app.use("/popular-recipe", popularRecipeRouter);
+app.use("/ingredients", ingredientsRouter);
+app.use("/own-recipes", ownRecipesRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
