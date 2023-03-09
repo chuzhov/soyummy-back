@@ -15,4 +15,6 @@ const router = express.Router();
 
 router.post('/', validateBody(schema.addRecipeSchema), auth, ctrl.addRecipe);
 
+router.get('/', auth, ctrl.fetchRecipesByOwner);
+
 module.exports = router;
