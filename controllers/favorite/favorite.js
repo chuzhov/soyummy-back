@@ -6,7 +6,7 @@ const { HttpError } = require('../../routes/errors/HttpErrors');
 const getFavorites = async (req, res, next) => {
   const { _id } = req.user;
 
-  const data = await popularMeals.find({ users: _id });
+  const data = await popularMeals.find({ users: _id }, '-_id -users');
 
   res.json({ data });
 };

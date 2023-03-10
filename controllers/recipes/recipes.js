@@ -60,7 +60,7 @@ const search = async (req, res, next) => {
 
 const popular = async (req, res, next) => {
   const data = await popularMeals
-    .find({}, '-_id -requestCount -users')
+    .find({}, '-_id -users')
     .sort({ users: 1 })
     .limit(popularRecipesLimit);
 
