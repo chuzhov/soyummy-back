@@ -17,4 +17,6 @@ router.post('/', validateBody(schema.addRecipeSchema), auth, ctrl.addRecipe);
 
 router.get('/', auth, ctrl.fetchRecipesByOwner);
 
+router.delete('/:id', auth, ctrl.delRecipe);
+
 module.exports = router;
