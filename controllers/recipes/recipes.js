@@ -1,9 +1,6 @@
-const axios = require('axios');
+const instance = require('../../helpers/instance');
 const ctrl = require('../ctrlWrapper');
 const { HttpError } = require('../../routes/errors/HttpErrors');
-const { popularMeals } = require('../../models/popularMeals');
-
-const instance = axios.create({ baseURL: 'http://www.themealdb.com/api/json/v1/1' });
 
 const categoryList = async (req, res, next) => {
   const { data } = await instance.get('/list.php?c=list');
@@ -14,7 +11,7 @@ const categoryList = async (req, res, next) => {
 };
 
 const categoryMeals = async (req, res, next) => {
-  const { data } = await instance.get(`/filter.php?c=${req.body.category}`);
+  const { data } = await instance.get(`/filter.php?c=${req.params.categoryName}`);
 
   const meals = data.meals;
 
@@ -44,16 +41,6 @@ const categoryId = async (req, res, next) => {
   const fullData = data.meals;
 
   if (fullData) {
-    const { idMeal, strMeal, strInstructions, strMealThumb } = fullData[0];
-
-    const isPopular = await popularMeals.findOneAndUpdate(
-      { idMeal: req.params.id },
-      { $inc: { requestCount: 1 } }
-    );
-
-    if (!isPopular) {
-      await popularMeals.create({ idMeal, strMeal, strInstructions, strMealThumb });
-    }
     res.json({ ...fullData[0] });
   } else {
     throw HttpError(404);

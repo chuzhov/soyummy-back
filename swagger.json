@@ -1,0 +1,393 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "2.0.1",
+    "title": "SoYummy API docs",
+    "description": "API documentation for GoIT project 'Kapusta'. [Backend github repository](https://github.com/chuzhov/soyummy-back)",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "consumes": ["application/json", "multipart/form-data"],
+  "produces": ["application/json"],
+  "servers": [{ "url": "https://soyummy.onrender.com/" }],
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Authorization endpoints"
+    },
+    {
+      "name": "Users",
+      "description": "Users endpoints"
+    },
+    {
+      "name": "Recipes",
+      "description": "Recipes endpoints"
+    },
+    {
+      "name": "Popular recipe",
+      "description": "Popular recipe"
+    },
+    {
+      "name": "Own recipes",
+      "description": "Own recipes"
+    },
+    {
+      "name": "Ingredients",
+      "description": "Ingredients"
+    }
+  ],
+  "paths": {
+    "/auth/signup": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User registration",
+        "parameters": [],
+        "requestBody": {
+          "description": "Registration's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "User with email is already registered",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User authentication",
+        "parameters": [],
+        "requestBody": {
+          "description": "Authentication's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Email or password is invalid",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Logout",
+        "security": [{ "Bearer": [] }],
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": "Successful operation",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/ingredients/list": {
+      "get": {
+        "tags": ["Ingredients"],
+        "summary": "Ingredients list",
+        "security": [{ "Bearer": [] }],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IngredientsListResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ingredients": {
+      "get": {
+        "tags": ["Ingredients"],
+        "summary": "Recipes list by query",
+        "security": [{ "Bearer": [] }],
+        "parameters": [],
+        "requestBody": {
+          "description": "Ingredients's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IngredientsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IngredientsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RegistrationRequest": {
+        "type": "object",
+        "required": ["name", "email", "password"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Arestovych"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "Qwerty123"
+          }
+        }
+      },
+      "RegistrationResponse": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Arestovych"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "   ": {
+            "type": "number",
+            "description": "User's id",
+            "example": "64088570b21fee18f53f917f"
+          }
+        }
+      },
+      "LoginRequest": {
+        "required": ["email", "password"],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "Qwerty123"
+          }
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string",
+            "description": "Session's access token (needed for all requests)",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MDg4NTcwYjIxZmVlMThmNTNmOTE3ZiIsImlhdCI6MTY3ODI4MjAwOCwiZXhwIjoxNjc4MjgyOTA4fQ.dl2FApjH1FLZXF-CYD4De7leFnhLUmYhV07L9HtrK78"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "User's id",
+                "example": "64088570b21fee18f53f917f"
+              },
+              "name": {
+                "type": "string",
+                "description": "User's name",
+                "example": "Arestovych"
+              },
+              "email": {
+                "type": "string",
+                "description": "User's email",
+                "format": "email"
+              },
+              "avatarURL": {
+                "type": "string",
+                "description": "User's avatar link",
+                "example": "User's avatar link"
+              },
+              "subscribed": {
+                "type": "string",
+                "description": "User's subscription",
+                "example": false
+              },
+              "favoriteRecipes": {
+                "type": "array",
+                "description": "User's favorite recipes",
+                "items": {
+                  "type": "string",
+                  "description": "Recipe's id",
+                  "example": "64088570b21fee18f53f917f"
+                }
+              }
+            }
+          }
+        }
+      },
+      "IngredientsListResponse": {
+        "type": "object",
+        "properties": {
+          "meals": {
+            "type": "array",
+            "description": "Ingredient",
+            "items": {
+              "type": "object",
+              "properties": {
+                "idIngredient": {
+                  "type": "string",
+                  "description": "Ingredient id",
+                  "example": "1"
+                },
+                "strIngredient": {
+                  "type": "string",
+                  "description": "Ingredient name",
+                  "example": "Chicken"
+                },
+                "strDescription": {
+                  "type": "string",
+                  "description": "Ingredient description",
+                  "example": "The chicken is a type of domesticated fowl, a subspecies of the red junglefowl (Gallus gallus)."
+                },
+                "strType": {
+                  "type": "string",
+                  "description": "Ingredient type",
+                  "example": "null"
+                }
+              },
+              "example": [
+                {
+                  "idIngredient": "1",
+                  "strIngredient": "Chicken",
+                  "strDescription": "The chicken is a type of domesticated fowl, a subspecies of the red junglefowl (Gallus gallus).",
+                  "strType": null
+                },
+                {
+                  "idIngredient": "2",
+                  "strIngredient": "Salmon",
+                  "strDescription": "Salmon is the common name for several species of ray-finned fish in the family Salmonidae.",
+                  "strType": null
+                }
+              ]
+            }
+          }
+        }
+      },
+      "IngredientsRequest": {
+        "required": ["ingredient"],
+        "type": "object",
+        "properties": {
+          "ingredient": {
+            "type": "string",
+            "description": "Ingredient name",
+            "example": "chicken"
+          }
+        }
+      },
+      "IngredientsResponse": {
+        "type": "object",
+        "properties": {
+          "meals": {
+            "type": "array",
+            "description": "Recipes list",
+            "items": {
+              "type": "object",
+              "properties": {
+                "strMeal": {
+                  "type": "string",
+                  "description": "Recipe's name",
+                  "example": "Brown Stew Chicken"
+                },
+                "strMealThumb": {
+                  "type": "string",
+                  "description": "Recipe's image",
+                  "example": "https://www.themealdb.com/images/media/meals/sypxpx1515365095.jpg"
+                },
+                "idMeal": {
+                  "type": "string",
+                  "description": "Recipe's id",
+                  "example": "52940"
+                }
+              },
+              "example": [
+                {
+                  "strMeal": "Brown Stew Chicken",
+                  "strMealThumb": "https://www.themealdb.com/images/media/meals/sypxpx1515365095.jpg",
+                  "idMeal": "52940"
+                },
+                {
+                  "strMeal": "Chicken & mushroom Hotpot",
+                  "strMealThumb": "https://www.themealdb.com/images/media/meals/uuuspp1511297945.jpg",
+                  "idMeal": "52846"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

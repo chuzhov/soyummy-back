@@ -8,7 +8,7 @@ const {
 
 const addUser = async (req, res) => {
   const { name, email, password } = req.body;
-  //check if user already exist
+  // check if user already exist
   const user = await User.findOne({ email });
   if (user) {
     throw HttpError(
@@ -16,7 +16,7 @@ const addUser = async (req, res) => {
       `User with email ${email} is already registered`
     );
   }
-  //hash password to store in db
+  // hash password to store in db
   const hashedPassword = await bcrypt.hash(
     password,
     10
@@ -27,7 +27,7 @@ const addUser = async (req, res) => {
     email,
     password: hashedPassword,
   });
-  //send response to front-end
+  // send response to front-end
   res.status(201).json({
     id: dbAnswer._id,
     name,

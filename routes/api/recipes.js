@@ -9,7 +9,7 @@ const {
 
 router.get('/category/list', auth, categoryList);
 
-router.get('/category', auth, categoryMeals);
+router.get('/category/:categoryName', auth, categoryMeals);
 
 router.get('/:category/:limit', auth, categoryLimit);
 

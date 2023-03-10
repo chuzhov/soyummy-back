@@ -4,24 +4,23 @@ const popularSchema = Schema(
   {
     idMeal: {
       type: String,
-      require: true,
+      required: true,
     },
     strMeal: {
       type: String,
-      require: true,
+      required: true,
     },
     strInstructions: {
       type: String,
-      require: true,
+      required: true,
     },
     strMealThumb: {
       type: String,
-      require: true,
+      required: true,
     },
-    requestCount: {
-      type: Number,
-      default: 1,
-      require: true,
+    users: {
+      type: Array,
+      required: true,
     },
   },
   { versionKey: false }

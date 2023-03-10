@@ -44,6 +44,7 @@ const loginUser = async (req, res) => {
   res.json({
     accessToken,
     user: {
+      id: user._id,
       name: user.name,
       email: user.email,
       avatarURL: user.avatarURL,
