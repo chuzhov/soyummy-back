@@ -15,6 +15,6 @@ const router = express.Router();
 
 router.get('/list', auth, ctrl.fetchAll);
 
-router.get('/', auth, validateBody(schema.getMealsByIngredien), ctrl.fetchMealByIngredient);
+router.get('/:q', auth, validateBody(schema.getMealsByIngredien), ctrl.fetchMealByIngredient);
 
 module.exports = router;

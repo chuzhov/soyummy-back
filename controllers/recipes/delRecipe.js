@@ -10,9 +10,7 @@ const delRecipe = async (req, res) => {
     if (!result) {
         throw HttpError(404,`Recipe with id ${id} not found` )
     }
-    res.json({
-        message: "Delete success"
-    });
+        res.status(204).send('Delete success');
 };
 
 module.exports = delRecipe;

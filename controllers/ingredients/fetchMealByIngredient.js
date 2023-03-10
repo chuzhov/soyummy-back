@@ -5,8 +5,8 @@ const {
 } = require("../../routes/errors/HttpErrors");
 
 const fetchMealByIngredient = async (req, res) => {
-    const { ingredient } = req.body;
-    const { data } = await instance.get(`/filter.php?i=${ingredient}`)
+  const { q } = req.params;
+    const { data } = await instance.get(`/filter.php?i=${q}`)
     if (!data.meals) {
         throw HttpError(404, `Meal by ingredient ${ingredient} not found`);
     }
