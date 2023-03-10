@@ -6,9 +6,12 @@ const {
   categoryLimit,
   categoryId,
   search,
+  popular,
 } = require('../../controllers/recipes/recipes');
 
 router.get('/category/list', auth, categoryList);
+
+router.get('/popular', auth, popular);
 
 router.get('/category/:categoryName', auth, categoryMeals);
 
