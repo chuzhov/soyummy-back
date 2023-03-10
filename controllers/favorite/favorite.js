@@ -53,7 +53,7 @@ const deleteFavorite = async (req, res, next) => {
         { $pull: { users: req.user._id } }
       );
     }
-    res.status(200).json({ message: 'Deleted from favorite' });
+    res.status(204).send();
   } else {
     throw HttpError(400);
   }
