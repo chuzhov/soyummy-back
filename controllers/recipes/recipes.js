@@ -1,7 +1,7 @@
 const instance = require('../../helpers/instance');
 const ctrl = require('../ctrlWrapper');
 const { HttpError } = require('../../routes/errors/HttpErrors');
-const { popularMeals } = require('../../models/popularMeals');
+const { PopularMeals } = require('../../models/popularMeals');
 
 const { popularRecipesLimit } = require('../../config/defaults');
 
@@ -59,7 +59,7 @@ const search = async (req, res, next) => {
 };
 
 const popular = async (req, res, next) => {
-  const data = await popularMeals
+  const data = await PopularMeals
     .find({}, '-_id -users')
     .sort({ users: 1 })
     .limit(popularRecipesLimit);
