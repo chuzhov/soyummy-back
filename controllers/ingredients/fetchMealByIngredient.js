@@ -10,7 +10,6 @@ const fetchMealByIngredient = async (req, res) => {
     if (!data.meals) {
         throw HttpError(404, `Meal by ingredient ${ingredient} not found`);
     }
-    
     res.send(data.meals);
 };
 

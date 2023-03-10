@@ -9,8 +9,8 @@ const fetchRecipesByOwner = async (req, res) => {
     const { page = 1, limit = 4 } = req.query;
     const skip = (page - 1) * limit;
     const result = await Recipe.find({ owner }, "-owner, -__v ", {skip, limit});
-    if (!result) {
-            HttpError(404,`Recipes by owner ID: ${_id} not found`)
+    if (result.length = 0) {
+        throw HttpError(404,`Recipes by owner ID: ${owner} not found`)
     }
     res.json(result);
 };

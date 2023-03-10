@@ -21,7 +21,7 @@ const recipeSchema = Schema({
         type: String,
         required: true,
     },
-    ingridients: 
+    ingredients: 
             [{
                 ingredient: {
                     type: String,
