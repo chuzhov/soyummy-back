@@ -13,7 +13,6 @@ const recipesRouter = require('./routes/api/recipes');
 const ownRecipesRouter = require('./routes/api/ownRecipes');
 const popularRecipeRouter = require('./routes/api/popularRecipe');
 const favoriteRouter = require('./routes/api/favorite');
-const searchRouter = require('./routes/api/search');
 
 const app = express();
 
@@ -35,7 +34,6 @@ app.use('/popular-recipe', popularRecipeRouter);
 app.use('/ingredients', ingredientsRouter);
 app.use('/own-recipes', ownRecipesRouter);
 app.use('/favorite', favoriteRouter);
-app.use('/search', searchRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found' });
