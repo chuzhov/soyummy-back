@@ -1,12 +1,12 @@
 const ctrl = require("../ctrlWrapper");
 const instance = require("../../helpers/instance");
-const { popularMeals } = require("../../models/popularMeals");
+const { PopularMeals } = require("../../models/popularMeals");
 const { HttpError } = require("../../routes/errors/HttpErrors");
 
 const getFavorites = async (req, res, next) => {
   const { _id } = req.user;
 
-  const data = await popularMeals.find({ users: _id }, "-users -_id");
+  const data = await PopularMeals.find({ users: _id }, "-_id -users");
 
   res.json({ data });
 };
@@ -20,13 +20,13 @@ const addFavorite = async (req, res, next) => {
     const { _id } = req.user;
     const { idMeal, strMeal, strInstructions, strMealThumb } = fullData[0];
 
-    const isPopular = await popularMeals.findOneAndUpdate(
+    const isPopular = await PopularMeals.findOneAndUpdate(
       { idMeal: req.body.idMeal },
       { $addToSet: { users: _id } }
     );
 
     if (!isPopular) {
-      await popularMeals.create({
+      await PopularMeals.create({
         idMeal,
         strMeal,
         strInstructions,
@@ -42,19 +42,19 @@ const addFavorite = async (req, res, next) => {
 };
 
 const deleteFavorite = async (req, res, next) => {
-  const data = await popularMeals.findOne({
+  const data = await PopularMeals.findOne({
     idMeal: req.body.idMeal,
     users: req.user._id,
   });
 
   if (data) {
     if (data.users.length === 1) {
-      await popularMeals.deleteOne({
+      await PopularMeals.deleteOne({
         idMeal: req.body.idMeal,
         users: req.user._id,
       });
     } else {
-      await popularMeals.findOneAndUpdate(
+      await PopularMeals.findOneAndUpdate(
         { idMeal: req.body.idMeal, users: req.user._id },
         { $pull: { users: req.user._id } }
       );

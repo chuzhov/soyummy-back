@@ -26,6 +26,6 @@ const popularSchema = Schema(
   { versionKey: false }
 );
 
-const popularMeals = model('popularMeal', popularSchema);
+const PopularMeals = model('popularMeal', popularSchema);
 
-module.exports = { popularMeals };
+module.exports = { PopularMeals };
