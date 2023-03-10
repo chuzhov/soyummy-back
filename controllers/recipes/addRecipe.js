@@ -13,7 +13,7 @@ const addRecipe = async (req, res) => {
         throw HttpError(409, "Recipe is already created")
     }
     await Recipe.create({ ...recipe, owner: _id});
-    res.status(201).send('Recipe created successfully');
+    res.status(204).send('Recipe created successfully');
 };
 
 module.exports = addRecipe;

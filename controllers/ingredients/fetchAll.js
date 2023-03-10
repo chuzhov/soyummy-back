@@ -7,7 +7,7 @@ const {
 const fetchAll = async (req, res) => {
   const { data } = await instance.get(`/list.php?i=list`) 
   if (!data) {
-    throw HttpError(404, 'Ingredients not found');
+    throw HttpError(500, 'Ingredients not found');
   }
   res.send(data);
 };
