@@ -47,9 +47,18 @@ const categoryId = async (req, res, next) => {
   }
 };
 
+const search = async (req, res, next) => {
+  const {
+    data: { meals },
+  } = await instance.get(`search.php?s=${req.params.keyWord}`);
+  if (!meals) throw HttpError(400);
+  res.json({ meals });
+};
+
 module.exports = {
   categoryList: ctrl(categoryList),
   categoryMeals: ctrl(categoryMeals),
   categoryLimit: ctrl(categoryLimit),
   categoryId: ctrl(categoryId),
+  search: ctrl(search),
 };

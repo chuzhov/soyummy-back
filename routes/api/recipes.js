@@ -5,11 +5,14 @@ const {
   categoryMeals,
   categoryLimit,
   categoryId,
+  search,
 } = require('../../controllers/recipes/recipes');
 
 router.get('/category/list', auth, categoryList);
 
 router.get('/category/:categoryName', auth, categoryMeals);
+
+router.get('/search/:keyWord', auth, search);
 
 router.get('/:category/:limit', auth, categoryLimit);
 
