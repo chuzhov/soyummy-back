@@ -19,7 +19,7 @@ const recipeSchema = Schema({
         type: String,
         required: true,
     },
-    coockingTime: {
+    cookingTime: {
         type: String,
         required: true,
     },
@@ -32,6 +32,10 @@ const recipeSchema = Schema({
             qty: {
                 type: String,
                 require: true,
+            },
+            imgURL: {
+                type: String,
+                default: ''
             },
             _id: false
         }],
