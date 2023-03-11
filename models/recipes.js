@@ -1,9 +1,11 @@
 const { Schema, model } = require("mongoose");
 
+const {DEFAULT_IMG_URL} = require('../config/defaults');
+
 const recipeSchema = Schema({
-    img: {
+    imgURL: {
         type: String,
-        default: "mills"
+        default: (DEFAULT_IMG_URL)
     },
     title: {
         type: String,

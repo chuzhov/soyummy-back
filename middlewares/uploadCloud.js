@@ -1,8 +1,9 @@
 const multer = require("multer");
 const cloudinary = require("cloudinary").v2;
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const { nanoid } = require('nanoid');
 
-const { ctrlWrapper, HttpError } = require("../helpers");
+const {HttpError } = require("../helpers");
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -10,15 +11,29 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_SECRET,
 });
 
-const multerConfig = new CloudinaryStorage({
+const multerConfigAvatar = new CloudinaryStorage({
   cloudinary,
   params: (req, file) => {
-    const extention = file.originalname.split(".").pop();
-    const avatarName = `${req.user._id}_avatar.${extention}`;
+    const avatarName = `${req.user._id}_avatar.`;
     return {
-      folder: "so_yammi/recipes",
+      folder: "assets/avatars",
       allowed_formats: ["png", "jpeg"],
       public_id: avatarName,
+      transformation: [{ height: 323, width: 300, crop: "fill" }],
+    };
+  },
+});
+
+const multerConfiRecipe = new CloudinaryStorage({
+  cloudinary,
+  params: (req, file) => {
+    const { _id } = req.user;
+    // const imgID = nanoid(5);
+    const RecipeName = `${_id}_recipe`;
+    return {
+      folder: "assets/own_recipes_photos",
+      allowed_formats: ["png", "jpeg"],
+      public_id: RecipeName,
       transformation: [{ height: 250, width: 250, crop: "fill" }],
     };
   },
@@ -37,9 +52,18 @@ function fileFilter(req, file, cb) {
   }
 }
 
-const uploadCloud = multer({
-  storage: multerConfig,
+const uploadCloudAvatar = multer({
+  storage: multerConfigAvatar,
   fileFilter,
 });
 
-module.exports = ctrlWrapper(uploadCloud.single("avatar"));
+const uploadCloudRecipe = multer({
+  storage: multerConfiRecipe,
+  fileFilter,
+});
+
+
+module.exports = {
+  uploadCloudRecipe: uploadCloudRecipe.single("picture"),
+  uploadCloudAvatar: uploadCloudAvatar.single("picture"),
+};
