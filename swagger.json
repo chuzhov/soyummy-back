@@ -10,16 +10,12 @@
     }
   },
   "consumes": ["application/json", "multipart/form-data"],
-  "produces": ["application/json"],
+  "produces": ["application/json", "multipart/form-data"],
   "servers": [{ "url": "https://soyummy.onrender.com/" }],
   "tags": [
     {
       "name": "Auth",
       "description": "Authorization endpoints"
-    },
-    {
-      "name": "Users",
-      "description": "Users endpoints"
     },
     {
       "name": "Recipes",
@@ -107,6 +103,26 @@
         }
       }
     },
+    "/auth/user-data": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Get user info",
+        "security": [{ "Bearer": [] }],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDataResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/auth/logout": {
       "post": {
         "tags": ["Auth"],
@@ -145,7 +161,7 @@
         }
       }
     },
-    "/ingredients": {
+    "/ingredients/{q}": {
       "get": {
         "tags": ["Ingredients"],
         "summary": "Recipes list by query",
@@ -198,7 +214,7 @@
       },
       "post": {
         "tags": ["Favorite"],
-        "summary": "Add favorite recipe",
+        "summary": "Add recipe to favorite",
         "security": [{ "Bearer": [] }],
         "parameters": [],
         "requestBody": {
@@ -218,13 +234,306 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AddFavoriteResponse"
+                  "$ref": "#/components/schemas/FavoriteResponse"
                 }
               }
             }
           },
           "400": {
             "description": "Bad Request",
+            "content": {}
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Favorite"],
+        "summary": "Delete recipe from favorite",
+        "security": [{ "Bearer": [] }],
+        "parameters": [],
+        "requestBody": {
+          "description": "Recipe's id",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FavoriteRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Successful operation",
+            "content": {}
+          }
+        },
+        "400": {
+          "description": "Bad Request",
+          "content": {}
+        }
+      }
+    },
+    "/recipes/category/list": {
+      "get": {
+        "tags": ["Recipes"],
+        "summary": "Categories list",
+        "security": [{ "Bearer": [] }],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoriesListResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/recipes/category/{categoryName}": {
+      "get": {
+        "tags": ["Recipes"],
+        "summary": "Recipes list by category",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "categoryName",
+            "required": true,
+            "type": "string",
+            "description": "Category name"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecipesByCategoryResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/recipes/{category}/{limit}": {
+      "get": {
+        "tags": ["Recipes"],
+        "summary": "Recipes list by category with limit",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "category",
+            "required": true,
+            "type": "string",
+            "description": "Category name"
+          },
+          {
+            "in": "path",
+            "name": "limit",
+            "required": true,
+            "type": "string",
+            "description": "Limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecipesByCategoryResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/recipes/{id}": {
+      "get": {
+        "tags": ["Recipes"],
+        "summary": "Recipe by id",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "description": "Recipe's id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecipeByIdResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/recipes/search/{keyWord}": {
+      "get": {
+        "tags": ["Recipes"],
+        "summary": "Search recipe by name",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "keyWord",
+            "required": true,
+            "type": "string",
+            "description": "Recipe's name"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecipeByIdResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/recipes/popular": {
+      "get": {
+        "tags": ["Recipes"],
+        "summary": "Popular recipes list",
+        "security": [{ "Bearer": [] }],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PopularRecipesResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/own-recipes": {
+      "get": {
+        "tags": ["Own-recipes"],
+        "summary": "Own recipes list",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "type": "string",
+            "description": "Own recipe's page"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "type": "string",
+            "description": "Own recipe's limit per page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OwnRecipesResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Own-recipes"],
+        "summary": "Add own recipe",
+        "security": [{ "Bearer": [] }],
+        "parameters": [],
+        "requestBody": {
+          "description": "Add own recipe",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/AddOwnRecipeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddOwnRecipeResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Recipe is already created",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/own-recipes/{id}": {
+      "delete": {
+        "tags": ["Own-recipes"],
+        "summary": "Delete own recipe",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "description": "Recipe's id"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful operation",
+            "content": {}
+          },
+          "404": {
+            "description": "Recipe with id not found",
             "content": {}
           }
         }
@@ -340,6 +649,46 @@
                 ]
               }
             }
+          }
+        }
+      },
+      "UserDataResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "User's id",
+            "example": "64088570b21fee18f53f917f"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Arestovych"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "avatarURL": {
+            "type": "string",
+            "description": "User's avatar link",
+            "example": "User's avatar link"
+          },
+          "subscribed": {
+            "type": "string",
+            "description": "User's subscription",
+            "example": false
+          },
+          "favoriteRecipes": {
+            "type": "array",
+            "description": "User's favorite recipes",
+            "items": {
+              "type": "string",
+              "description": "Recipe's id",
+              "example": "64088570b21fee18f53f917f"
+            },
+            "example": ["6409c39e48026206e1d42374", "6409c39e48026206e1d42334"]
           }
         }
       },
@@ -475,7 +824,7 @@
           ]
         }
       },
-      "AddFavoriteRequest": {
+      "FavoriteRequest": {
         "required": ["idMeal"],
         "type": "object",
         "properties": {
@@ -493,6 +842,423 @@
             "type": "string",
             "description": "Response message",
             "example": "Added to favorite"
+          }
+        }
+      },
+      "CategoriesListResponse": {
+        "type": "array",
+        "description": "Categories list",
+        "items": {
+          "type": "string",
+          "description": "Category name",
+          "example": "Beef"
+        },
+        "example": [
+          "Beef",
+          "Breakfast",
+          "Chicken",
+          "Dessert",
+          "Goat",
+          "Lamb",
+          "Miscellaneous",
+          "Pasta",
+          "Pork",
+          "Seafood",
+          "Side",
+          "Starter",
+          "Vegan",
+          "Vegetarian"
+        ]
+      },
+      "RecipesByCategoryResponse": {
+        "type": "array",
+        "description": "Popular recipes by category",
+        "items": {
+          "type": "object",
+          "properties": {
+            "strMeal": {
+              "type": "string",
+              "description": "Recipe's name",
+              "example": "Brown Stew Chicken"
+            },
+            "strMealThumb": {
+              "type": "string",
+              "description": "Recipe's image",
+              "example": "https://www.themealdb.com/images/media/meals/sypxpx1515365095.jpg"
+            },
+            "idMeal": {
+              "type": "string",
+              "description": "Recipe's id",
+              "example": "52940"
+            }
+          },
+          "example": [
+            {
+              "strMeal": "Baked salmon with fennel & tomatoes",
+              "strMealThumb": "https://www.themealdb.com/images/media/meals/1548772327.jpg",
+              "idMeal": "52959"
+            },
+            {
+              "strMeal": "Cajun spiced fish tacos",
+              "strMealThumb": "https://www.themealdb.com/images/media/meals/uvuyxu1503067369.jpg",
+              "idMeal": "52819"
+            }
+          ]
+        }
+      },
+      "RecipeByIdResponse": {
+        "type": "object",
+        "properties": {
+          "idMeal": {
+            "type": "string",
+            "description": "Recipe's id",
+            "example": "52940"
+          },
+          "strMeal": {
+            "type": "string",
+            "description": "Recipe's name",
+            "example": "Brown Stew Chicken"
+          },
+          "strCategory": {
+            "type": "string",
+            "description": "Category name",
+            "enum": [
+              "Beef",
+              "Breakfast",
+              "Chicken",
+              "Dessert",
+              "Goat",
+              "Lamb",
+              "Miscellaneous",
+              "Pasta",
+              "Pork",
+              "Seafood",
+              "Side",
+              "Starter",
+              "Vegan",
+              "Vegetarian"
+            ]
+          },
+          "strArea": {
+            "type": "string",
+            "description": "Recipe's area",
+            "example": "Japanese"
+          },
+          "strInstructions": {
+            "type": "string",
+            "description": "Recipe's instruction",
+            "example": "Preheat oven to 350° F. Spray a 9x13-inch baking pan with non-stick spray."
+          },
+          "strMealThumb": {
+            "type": "string",
+            "description": "Recipe's image",
+            "example": "https://www.themealdb.com/images/media/meals/wvpsxx1468256321.jpg"
+          },
+          "strIngredient1": {
+            "type": "string",
+            "description": "Recipe's ingredient",
+            "example": "soy sauce"
+          },
+          "strIngredient2": {
+            "type": "string",
+            "description": "Recipe's ingredient",
+            "example": "water"
+          },
+          "strIngredient3": {
+            "type": "string",
+            "description": "Recipe's ingredient",
+            "example": "brown sugar"
+          },
+          "strIngredient4": {
+            "type": "string",
+            "description": "Recipe's ingredient",
+            "example": "ground ginger"
+          },
+          "strIngredient5": {
+            "type": "string",
+            "description": "Recipe's ingredient",
+            "example": "minced garlic"
+          },
+          "strIngredient6": {
+            "type": "string",
+            "description": "Recipe's ingredient",
+            "example": "cornstarch"
+          },
+          "strIngredient7": {
+            "type": "string",
+            "description": "Recipe's ingredient",
+            "example": "chicken breasts"
+          },
+          "strIngredient8": {
+            "type": "string",
+            "description": "Recipe's ingredient",
+            "example": "stir-fry vegetables"
+          },
+          "strIngredient9": {
+            "type": "string",
+            "description": "Recipe's ingredient",
+            "example": "brown rice"
+          },
+          "strMeasure1": {
+            "type": "string",
+            "description": "Ingredient measure",
+            "example": "3/4 cup"
+          },
+          "strMeasure2": {
+            "type": "string",
+            "description": "Ingredient measure",
+            "example": "1/2 cup"
+          },
+          "strMeasure3": {
+            "type": "string",
+            "description": "Ingredient measure",
+            "example": "1/4 cup"
+          },
+          "strMeasure4": {
+            "type": "string",
+            "description": "Ingredient measure",
+            "example": "1/2 teaspoon"
+          },
+          "strMeasure5": {
+            "type": "string",
+            "description": "Ingredient measure",
+            "example": "1/2 teaspoon"
+          },
+          "strMeasure6": {
+            "type": "string",
+            "description": "Ingredient measure",
+            "example": "4 Tablespoons"
+          },
+          "strMeasure7": {
+            "type": "string",
+            "description": "Ingredient measure",
+            "example": "2"
+          },
+          "strMeasure8": {
+            "type": "string",
+            "description": "Ingredient measure",
+            "example": "1 (12 oz.)"
+          },
+          "strMeasure9": {
+            "type": "string",
+            "description": "Ingredient measure",
+            "example": "3 cups"
+          }
+        }
+      },
+      "PopularRecipesResponse": {
+        "type": "object",
+        "properties": {
+          "meals": {
+            "type": "array",
+            "description": "Popular recipes list",
+            "items": {
+              "type": "object",
+              "properties": {
+                "idMeal": {
+                  "type": "string",
+                  "description": "Recipe's id",
+                  "example": "52940"
+                },
+                "strMeal": {
+                  "type": "string",
+                  "description": "Recipe's name",
+                  "example": "Beef and Mustard Pie"
+                },
+                "strInstructions": {
+                  "type": "string",
+                  "description": "Recipe's instruction",
+                  "example": "Preheat the oven to 150C/300F/Gas. Toss the beef and flour together in a bowl with some salt and black pepper."
+                },
+                "strMealThumb": {
+                  "type": "string",
+                  "description": "Recipe's image",
+                  "example": "https://www.themealdb.com/images/media/meals/sypxpx1515365095.jpg"
+                }
+              }
+            }
+          }
+        }
+      },
+      "OwnRecipesResponse": {
+        "type": "array",
+        "description": "Own recipes list",
+        "items": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "description": "Recipe's id",
+              "example": "640c84b78097084bc02b85ae"
+            },
+            "imgURL": {
+              "type": "string",
+              "description": "Recipe's image",
+              "example": "https://res.cloudinary.com/dcpsasqw8/image/upload/v1678474415/assets/own_recipes_photos/dafault.png"
+            },
+            "title": {
+              "type": "string",
+              "description": "Recipe's name",
+              "example": ""
+            },
+            "about": {
+              "type": "string",
+              "description": "Recipe's about",
+              "example": ""
+            },
+            "category": {
+              "type": "string",
+              "description": "Category name",
+              "enum": [
+                "Beef",
+                "Breakfast",
+                "Chicken",
+                "Dessert",
+                "Goat",
+                "Lamb",
+                "Miscellaneous",
+                "Pasta",
+                "Pork",
+                "Seafood",
+                "Side",
+                "Starter",
+                "Vegan",
+                "Vegetarian"
+              ]
+            },
+            "cookingTime": {
+              "type": "string",
+              "description": "Recipe's cooking time",
+              "example": "20-30 min"
+            },
+            "ingredients": {
+              "type": "array",
+              "description": "Recipe's ingredients list",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ingredient": {
+                    "type": "string",
+                    "description": "Ingredient name",
+                    "example": ""
+                  },
+                  "qty": {
+                    "type": "string",
+                    "description": "Ingredient quantity",
+                    "example": ""
+                  }
+                }
+              },
+              "example": [
+                {
+                  "ingredient": "Bread",
+                  "qty": "5"
+                },
+                {
+                  "ingredient": "Cheese",
+                  "qty": "3"
+                }
+              ]
+            },
+            "description": {
+              "type": "string",
+              "description": "Recipe's description",
+              "example": ""
+            },
+            "owner": {
+              "type": "string",
+              "description": "Recipe's owner id",
+              "example": "6408a40a32bc509704e0b529"
+            }
+          }
+        }
+      },
+      "AddOwnRecipeRequest": {
+        "type": "object",
+        "properties": {
+          "picture": {
+            "type": "string",
+            "description": "Recipe's image",
+            "format": "binary"
+          },
+          "title": {
+            "type": "string",
+            "description": "Recipe's name",
+            "example": ""
+          },
+          "about": {
+            "type": "string",
+            "description": "Recipe's about",
+            "example": ""
+          },
+          "category": {
+            "type": "string",
+            "description": "Category name",
+            "enum": [
+              "Beef",
+              "Breakfast",
+              "Chicken",
+              "Dessert",
+              "Goat",
+              "Lamb",
+              "Miscellaneous",
+              "Pasta",
+              "Pork",
+              "Seafood",
+              "Side",
+              "Starter",
+              "Vegan",
+              "Vegetarian"
+            ]
+          },
+          "cookingTime": {
+            "type": "string",
+            "description": "Recipe's cooking time",
+            "example": "20-30 min"
+          },
+          "ingredients": {
+            "type": "array",
+            "description": "Recipe's ingredients list",
+            "items": {
+              "type": "object",
+              "properties": {
+                "ingredient": {
+                  "type": "string",
+                  "description": "Ingredient name",
+                  "example": ""
+                },
+                "qty": {
+                  "type": "string",
+                  "description": "Ingredient quantity",
+                  "example": ""
+                }
+              }
+            },
+            "example": [
+              {
+                "ingredient": "Bread",
+                "qty": "5"
+              },
+              {
+                "ingredient": "Cheese",
+                "qty": "3"
+              }
+            ]
+          },
+          "description": {
+            "type": "string",
+            "description": "Recipe's description",
+            "example": ""
+          }
+        }
+      },
+      "AddOwnRecipeResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Own recipe's id",
+            "example": "640c84b78097084bc02b85ae"
           }
         }
       }
