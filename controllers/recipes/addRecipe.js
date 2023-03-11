@@ -5,7 +5,8 @@ const {
 } = require("../../routes/errors/HttpErrors");
 
 const addRecipe = async (req, res) => {
-    const {_id} = req.user;
+    
+    const { _id } = req.user;
     const recipe = req.body
     const { ingredients } = req.body;
     const result = await Recipe.find({ ...ingredients })
