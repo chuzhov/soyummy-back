@@ -6,7 +6,9 @@ const { HttpError } = require('../../routes/errors/HttpErrors');
 const getFavorites = async (req, res, next) => {
   const { _id } = req.user;
 
-  const data = await PopularMeals.find({ users: _id }, '-_id -users');
+  const skip = req.query.page > 0 ? (req.query.page - 1) * 4 : 0;
+
+  const data = await PopularMeals.find({ users: _id }, '-_id -users').skip(skip).limit(4);
 
   res.json({ data });
 };
