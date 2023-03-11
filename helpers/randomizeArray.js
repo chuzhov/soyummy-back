@@ -1,10 +1,11 @@
+const { randNum } = require('./randNum');
+
 const randomizeArray = (arrayLength, numbersCount) => {
-  const randNumbArr = [];
+  const uniqArray = new Set();
   for (let number = 0; number < numbersCount; number++) {
-    const randNum = Math.floor(Math.random() * (arrayLength - 1));
-    if (randNumbArr.indexOf(randNum) === -1) randNumbArr.push(randNum);
+    uniqArray.add(randNum(arrayLength - 1));
   }
-  return randNumbArr;
+  return [...uniqArray];
 };
 
 module.exports = { randomizeArray };
