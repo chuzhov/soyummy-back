@@ -3,6 +3,7 @@ const express = require("express");
 const {
   validateBody,
   auth,
+  upload
 } = require("../../middlewares");
 
 const {
@@ -13,7 +14,7 @@ const  schema = require("../validation/");
 
 const router = express.Router();
 
-router.post('/', validateBody(schema.addRecipeSchema), auth, ctrl.addRecipe);
+router.post('/', auth, upload.uploadCloudRecipe, ctrl.addRecipe);
 
 router.get('/', auth, ctrl.fetchRecipesByOwner);
 
