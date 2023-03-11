@@ -6,46 +6,6 @@ const {
   HttpError,
 } = require("../../routes/errors/HttpErrors");
 
-// const fakebody = {
-//   "imgURL": "https://res.cloudinary.com/dcpsasqw8/image/upload/v1678474415/assets/own_recipes_photos/dafault.png",
-//   "title": "Кіт в хлібі",
-//   "about": "Хліб розташований семетрично навколо голови кота",
-//   "category": "Beef",
-//   "cookingTime": "20-30 min",
-//   "ingredients": [
-//     {
-//       "ingredient": "Lime",
-//       "qty": "4",
-//       "imgURL": "https://www.themealdb.com/images/ingredients/Lime-Small.png",
-//       "_id": {
-//         "$oid": "640cb39bbc40cacac3c6f90d"
-//       }
-//     },
-//     {
-//       "ingredient": "Balsamic Vinegar",
-//       "qty": "8",
-//       "imgURL": "https://www.themealdb.com/images/ingredients/Balsamic%20Vinegar-Small.png",
-//       "_id": {
-//         "$oid": "640cb39bbc40cacac3c6f90e"
-//       }
-//     },
-//     {
-//       "ingredient": "Сирок",
-//       "qty": "3",
-//       "imgURL": "https://www.themealdb.com/images/ingredients/Сирок-Small.png",
-//       "_id": {
-//         "$oid": "640cb39bbc40cacac3c6f90f"
-//       }
-//     }
-//   ],
-//   "description": "Взяти хліб взяти кота, елегантно поїднати",
-//   "owner": {
-//     "$oid": "6408a40a32bc509704e0b529"
-//   },
-//   "__v": 0
-// }
-
-
 
 const addRecipe = async (req, res) => {
     
