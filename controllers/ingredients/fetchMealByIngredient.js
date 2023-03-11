@@ -8,7 +8,7 @@ const fetchMealByIngredient = async (req, res) => {
   const { q } = req.params;
     const { data } = await instance.get(`/filter.php?i=${q}`)
     if (!data.meals) {
-        throw HttpError(404, `Meal by ingredient ${ingredient} not found`);
+        throw HttpError(404, `Meal by ingredient ${q} not found`);
     }
     res.send(data.meals);
 };

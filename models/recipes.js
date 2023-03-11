@@ -24,16 +24,17 @@ const recipeSchema = Schema({
         required: true,
     },
     ingredients: 
-            [{
-                ingredient: {
-                    type: String,
-                    require: true,
-                },
-                qty: {
-                    type: String,
-                    require: true,
-                }
-            }],
+        [{
+            ingredient: {
+                type: String,
+                require: true,
+            },
+            qty: {
+                type: String,
+                require: true,
+            },
+            _id: false
+        }],
     description: {
         type: String,
         required: true,

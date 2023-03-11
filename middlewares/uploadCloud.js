@@ -29,7 +29,7 @@ const multerConfiRecipe = new CloudinaryStorage({
   params: (req, file) => {
     const { _id } = req.user;
     // const imgID = nanoid(5); auto remove of the picture at the testing stage
-    const RecipeName = `${_id}_${imgID }_recipe`;
+    const RecipeName = `${_id}_recipe`;
     return {
       folder: "assets/own_recipes_photos",
       allowed_formats: ["png", "jpeg"],
