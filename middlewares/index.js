@@ -6,5 +6,5 @@ const upload = require('./uploadCloud');
 module.exports = {
   validateBody,
   auth,
-  upload: upload
+  upload,
 };

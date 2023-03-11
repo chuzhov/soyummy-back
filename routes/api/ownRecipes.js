@@ -10,11 +10,11 @@ const {
   recipes: ctrl,
 } = require("../../controllers/");
 
-const  schema = require("../validation/");
+const schema = require("../validation/");
 
 const router = express.Router();
 
-router.post('/', auth, upload.uploadCloudRecipe, ctrl.addRecipe);
+router.post('/', auth, upload.uploadCloudRecipe, validateBody(schema.addRecipeSchema), ctrl.addRecipe);
 
 router.get('/', auth, ctrl.fetchRecipesByOwner);
 
