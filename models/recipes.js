@@ -1,11 +1,11 @@
 const { Schema, model } = require("mongoose");
 
-const {DEFAULT_IMG_URL} = require('../config/defaults');
+const {DEFAULT_RECIPE_IMG_URL} = require('../config/defaults');
 
 const recipeSchema = Schema({
     imgURL: {
         type: String,
-        default: (DEFAULT_IMG_URL)
+        default: (DEFAULT_RECIPE_IMG_URL)
     },
     title: {
         type: String,
@@ -19,21 +19,26 @@ const recipeSchema = Schema({
         type: String,
         required: true,
     },
-    coockingTime: {
+    cookingTime: {
         type: String,
         required: true,
     },
     ingredients: 
-            [{
-                ingredient: {
-                    type: String,
-                    require: true,
-                },
-                qty: {
-                    type: String,
-                    require: true,
-                }
-            }],
+        [{
+            ingredient: {
+                type: String,
+                require: true,
+            },
+            qty: {
+                type: String,
+                require: true,
+            },
+            imgURL: {
+                type: String,
+                default: ''
+            },
+            _id: false
+        }],
     description: {
         type: String,
         required: true,
