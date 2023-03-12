@@ -18,7 +18,7 @@ const getOwnRecipeByID = async (req, res) => {
                 foundIngredients.push(
                     {
                     ingredient: ingredients[i].ingredient, qty: ingredients[i].qty,
-                    desct: foundIngredient.strDescription, imgURL: ingredients[i].imgURL
+                    desc: foundIngredient.strDescription, imgURL: ingredients[i].imgURL
                     }
                 );
             }
@@ -26,8 +26,6 @@ const getOwnRecipeByID = async (req, res) => {
     
     const {_doc} = {...result}
     const recipe = { ..._doc, ingredients: foundIngredients }
-
-    
 
     res.json(recipe)
 };
