@@ -2,13 +2,14 @@ const ctrl = require('../ctrlWrapper');
 const instance = require('../../helpers/instance');
 const { PopularMeals } = require('../../models/popularMeals');
 const { HttpError } = require('../../routes/errors/HttpErrors');
+const { pageLimit } = require('../../config/defaults');
 
 const getFavorites = async (req, res, next) => {
   const { _id } = req.user;
 
-  const skip = req.query.page > 0 ? (req.query.page - 1) * 4 : 0;
+  const skip = req.query.page > 0 ? (req.query.page - 1) * pageLimit : 0;
 
-  const data = await PopularMeals.find({ users: _id }, '-_id -users').skip(skip).limit(4);
+  const data = await PopularMeals.find({ users: _id }, '-_id -users').skip(skip).limit(pageLimit);
 
   res.json({ data });
 };
