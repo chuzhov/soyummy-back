@@ -19,6 +19,8 @@ router.post('/', auth, upload.uploadCloudRecipe, ctrl.addRecipe);
 
 router.get('/', auth, ctrl.fetchRecipesByOwner);
 
+router.get('/:id', auth, ctrl.getOwnRecipeByID);
+
 router.delete('/:id', auth, ctrl.delRecipe);
 
 module.exports = router;
