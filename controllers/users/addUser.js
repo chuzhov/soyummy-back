@@ -10,6 +10,7 @@ const addUser = async (req, res) => {
   const { name, email, password } = req.body;
   // check if user already exist
   const user = await User.findOne({ email });
+
   if (user) {
     throw HttpError(
       409,

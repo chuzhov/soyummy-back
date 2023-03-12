@@ -10,9 +10,9 @@ const {
 const addRecipe = async (req, res) => {
     
   const { _id } = req.user;
-  const recipe = req.body
+  const recipe = req.body;
   const { ingredients } = req.body;
-    
+
   const newArr = ingredients.map(obj => ({ ingredient: obj.ingredient,  qty: obj.qty, imgURL:`${BASE_INGREDIENT_IMG_URL}/${obj.ingredient.replace(/\s/g, '%20')}-Small.png` }));
 
   const conditions = newArr.map(obj => ({
