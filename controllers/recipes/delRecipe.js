@@ -6,11 +6,13 @@ const {
 
 const delRecipe = async (req, res) => {
     const { id } = req.params;
-    const result = await Recipe.findByIdAndDelete(id);
+    const { id: uid } = req.user;
+
+    const result = await Recipe.findOneAndDelete({_id: id, owner: uid});
     if (!result) {
         throw HttpError(404,`Recipe with id ${id} not found` )
     }
-      res.sendStatus(204);
+    res.json({"Deleted: ": result._id})
 };
 
 module.exports = delRecipe;

@@ -56,7 +56,16 @@ const categoryId = async (req, res, next) => {
   const fullData = data.meals;
 
   if (fullData) {
-    res.json({ ...fullData[0] });
+    for (let ingridient = 1; ingridient < 21; ingridient++) {
+      if (!fullData[0][`strIngredient${ingridient}`]) break;
+
+      fullData[0][`strIngredientImg${ingridient}`] =
+        'http://www.themealdb.com/images/ingredients/' +
+        fullData[0][`strIngredient${ingridient}`] +
+        '.png';
+    }
+
+    res.json(fullData[0]);
   } else {
     throw HttpError(404);
   }

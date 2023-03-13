@@ -25,7 +25,7 @@ router.post(
   ctrl.loginUser
 );
 
-router.post("/user-data", auth, ctrl.getUserData);
+router.get("/user-data/:uid", auth, ctrl.getUserData);
 
 router.post("/logout", auth, ctrl.logoutUser);
 

@@ -1,7 +1,7 @@
 const multer = require("multer");
 const cloudinary = require("cloudinary").v2;
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
-const { nanoid } = require('nanoid');
+// const { nanoid } = require('nanoid');
 
 const {HttpError } = require("../helpers");
 
@@ -24,7 +24,7 @@ const multerConfigAvatar = new CloudinaryStorage({
   },
 });
 
-const multerConfiRecipe = new CloudinaryStorage({
+const multerConfiRecipe =  new CloudinaryStorage({
   cloudinary,
   params: (req, file) => {
     const { _id } = req.user;
@@ -36,8 +36,9 @@ const multerConfiRecipe = new CloudinaryStorage({
       public_id: RecipeName,
       transformation: [{ height: 250, width: 250, crop: "fill" }],
     };
-  },
-});
+  }
+})
+;
 
 function fileFilter(req, file, cb) {
   if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
@@ -62,8 +63,19 @@ const uploadCloudRecipe = multer({
   fileFilter,
 });
 
+const ingredientsParser = (req, res, next) => {
+   const { ingredients } = req.body;
+  try {
+    const parsedData = JSON.parse(ingredients);
+    req.body.ingredients = parsedData; 
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
 
 module.exports = {
   uploadCloudRecipe: uploadCloudRecipe.single("picture"),
   uploadCloudAvatar: uploadCloudAvatar.single("picture"),
+  ingredientsParser: ingredientsParser
 };
