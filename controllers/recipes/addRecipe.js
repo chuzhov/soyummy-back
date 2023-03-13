@@ -15,14 +15,7 @@ const addRecipe = async (req, res) => {
   const recipe = req.body;
   const { ingredients } = req.body;
   const ingredientList = await instance.get('/list.php?i=list');
-  const pictureURL = req.file.path;
-  
-  const picture = () => {
-    if (pictureURL === undefined) {
-      return DEFAULT_RECIPE_IMG_URL;
-    }
-      return pictureURL;
-  }
+  const pictureURL = req.file?.path || DEFAULT_RECIPE_IMG_URL;
   
   const foundIngredients = [];
 
@@ -52,7 +45,7 @@ const addRecipe = async (req, res) => {
   if (result.length > 0) {
     throw HttpError(409, "Recipe is already created")
   }
-  await Recipe.create({ ...recipe, owner: _id, picture: picture, ingredients: foundIngredients} );
+  await Recipe.create({ ...recipe, owner: _id, picture: pictureURL, ingredients: foundIngredients} );
     res.status(201).send('Recipe created successfully');
 };
 
