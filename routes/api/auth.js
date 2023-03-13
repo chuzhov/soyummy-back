@@ -7,6 +7,7 @@ const {
 const {
   validateBody,
   auth,
+  upload
 } = require("../../middlewares");
 
 const schema = require("../validation/");
@@ -28,5 +29,7 @@ router.post(
 router.get("/user-data/:uid", auth, ctrl.getUserData);
 
 router.post("/logout", auth, ctrl.logoutUser);
+
+router.patch('/avatar', auth, upload.uploadCloudAvatar, ctrl.updateAvatar)
 
 module.exports = router;

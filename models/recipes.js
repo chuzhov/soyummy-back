@@ -1,11 +1,36 @@
 const { Schema, model } = require("mongoose");
 
-const {DEFAULT_RECIPE_IMG_URL} = require('../config/defaults');
+
+const ingredientSchema = Schema(
+    {
+        ingredient: {
+            type: String,
+            require: true,
+        },
+        qty: {
+            type: String,
+            require: true,
+        },
+        imgURL: {
+            type: String,
+            default: ''
+        },
+        description: {
+            type: String,
+            default: ''
+        },
+        id: {
+            type: String
+        },
+        _id: false
+    },
+);
+
 
 const recipeSchema = Schema({
     imgURL: {
         type: String,
-        default: (DEFAULT_RECIPE_IMG_URL)
+        default: ""
     },
     title: {
         type: String,
@@ -23,22 +48,8 @@ const recipeSchema = Schema({
         type: String,
         required: true,
     },
-    ingredients: 
-        [{
-            ingredient: {
-                type: String,
-                require: true,
-            },
-            qty: {
-                type: String,
-                require: true,
-            },
-            imgURL: {
-                type: String,
-                default: ''
-            },
-            _id: false
-        }],
+    ingredients:
+        [ingredientSchema],
     description: {
         type: String,
         required: true,
