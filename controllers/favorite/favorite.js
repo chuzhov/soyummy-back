@@ -56,9 +56,11 @@ const deleteFavorite = async (req, res, next) => {
         { $pull: { users: req.user._id } }
       );
     }
-    res.status(204).send();
+    res.json({
+      "Deleted: ": req.body.idMeal
+    })
   } else {
-    throw HttpError(400);
+    throw HttpError(404, `The meal with ${req.body.idMeal} was not found in favorites`);
   }
 };
 
