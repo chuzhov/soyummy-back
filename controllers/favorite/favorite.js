@@ -57,7 +57,7 @@ const deleteFavorite = async (req, res, next) => {
       );
     }
     res.json({
-      "Deleted: ": req.params.idMeal
+      "id": req.params.idMeal
     })
   } else {
     throw HttpError(404, `The meal with ${req.params.idMeal} was not found in favorites`);
