@@ -2,15 +2,14 @@ const { Schema, model } = require("mongoose");
 
 const USER_AVATAR_PARAMS = {
   dimensions: {
-    width: 250,
-    height: 250,
+    width: 103,
+    height: 103,
   },
   maxFileSize: 100000,
   acceptableFileTypes: [
-    ".jpg",
-    ".jpeg",
-    ".png",
-    ".gif",
+    "jpg",
+    "jpeg",
+    "png",
   ],
 };
 
@@ -35,16 +34,10 @@ const userSchema = Schema(
       default: "",
     },
     accessToken: String,
-
-    // customRecipes: {
-    //   type: [String],
-    //   required: false,
-    //   default: [], // an array of _ids at customRecipes table mondoDB
-    // },
-    favoriteRecipes: {
+    achievements: {
       type: [String],
       required: false,
-      default: [], // an array of ids at www.themealdb.com/api/json/v1/1/lookup.php?i={id}
+      default: []
     },
     subscribed: {
       type: Boolean,

@@ -48,7 +48,7 @@ const loginUser = async (req, res) => {
       name: user.name,
       email: user.email,
       avatarURL: user.avatarURL,
-      favoriteRecipes: user.favoriteRecipes, // чи потрібні відразу?
+      achievements: user.achievements,
     },
   });
 };
