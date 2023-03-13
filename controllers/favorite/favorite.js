@@ -45,22 +45,22 @@ const addFavorite = async (req, res, next) => {
 };
 
 const deleteFavorite = async (req, res, next) => {
-  const data = await PopularMeals.findOne({ idMeal: req.body.idMeal, users: req.user._id });
+  const data = await PopularMeals.findOne({ idMeal: req.params.idMeal, users: req.user._id });
 
   if (data) {
     if (data.users.length === 1) {
-      await PopularMeals.deleteOne({ idMeal: req.body.idMeal, users: req.user._id });
+      await PopularMeals.deleteOne({ idMeal: req.params.idMeal, users: req.user._id });
     } else {
       await PopularMeals.findOneAndUpdate(
-        { idMeal: req.body.idMeal, users: req.user._id },
+        { idMeal: req.params.idMeal, users: req.user._id },
         { $pull: { users: req.user._id } }
       );
     }
     res.json({
-      "Deleted: ": req.body.idMeal
+      "Deleted: ": req.params.idMeal
     })
   } else {
-    throw HttpError(404, `The meal with ${req.body.idMeal} was not found in favorites`);
+    throw HttpError(404, `The meal with ${req.params.idMeal} was not found in favorites`);
   }
 };
 

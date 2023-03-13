@@ -10,6 +10,6 @@ router.get('/', auth, getFavorites);
 
 router.post('/', auth, addFavorite);
 
-router.delete('/', auth, deleteFavorite);
+router.delete('/:idMeal', auth, deleteFavorite);
 
 module.exports = router;
