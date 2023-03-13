@@ -11,6 +11,8 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_SECRET,
 });
 
+const avatarParams = require('../models/users');
+
 const multerConfigAvatar = new CloudinaryStorage({
   cloudinary,
   params: (req, file) => {
@@ -19,7 +21,7 @@ const multerConfigAvatar = new CloudinaryStorage({
       folder: "assets/avatars",
       allowed_formats: ["png", "jpeg"],
       public_id: avatarName,
-      transformation: [{ height: 323, width: 300, crop: "fill" }],
+      avatarParams,
     };
   },
 });
@@ -46,7 +48,7 @@ function fileFilter(req, file, cb) {
     cb(
       HttpError(
         400,
-        "Unsupported avatar format. Choose file with extention jpeg or png"
+        "Unsupported image format. Choose file with extention jpeg or png"
       )
     );
   }
