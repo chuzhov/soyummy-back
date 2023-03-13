@@ -2,13 +2,14 @@ const instance = require('../../helpers/instance');
 const ctrl = require('../ctrlWrapper');
 const { HttpError } = require('../../routes/errors/HttpErrors');
 const { PopularMeals } = require('../../models/popularMeals');
+const { randomizeArray } = require('../../helpers/randomizeArray');
 
 const { popularRecipesLimit } = require('../../config/defaults');
 
 const categoryList = async (req, res, next) => {
   const { data } = await instance.get('/list.php?c=list');
 
-  const flatData = data.meals.flatMap(el => el.strCategory);
+  const flatData = data.meals.map(el => el.strCategory);
 
   res.json({ meals: flatData });
 };
@@ -29,9 +30,20 @@ const categoryLimit = async (req, res, next) => {
   const { data } = await instance.get(`/filter.php?c=${req.params.category}`);
 
   const limit = Number(req.params.limit);
+  let meals;
 
   if ((limit === 4 || limit === 12) && data.meals) {
-    const meals = data.meals.slice(0, limit);
+    const randArr = randomizeArray(data.meals.length, limit);
+    if (randArr.length === limit) {
+      meals = [];
+
+      for (const num of randArr) {
+        meals.push(data.meals[num]);
+      }
+    } else {
+      meals = data.meals.slice(0, limit);
+    }
+
     res.json({ meals });
   } else {
     throw HttpError(400);
@@ -44,7 +56,16 @@ const categoryId = async (req, res, next) => {
   const fullData = data.meals;
 
   if (fullData) {
-    res.json({ ...fullData[0] });
+    for (let ingridient = 1; ingridient < 21; ingridient++) {
+      if (!fullData[0][`strIngredient${ingridient}`]) break;
+
+      fullData[0][`strIngredientImg${ingridient}`] =
+        'http://www.themealdb.com/images/ingredients/' +
+        fullData[0][`strIngredient${ingridient}`] +
+        '.png';
+    }
+
+    res.json(fullData[0]);
   } else {
     throw HttpError(404);
   }
@@ -59,8 +80,7 @@ const search = async (req, res, next) => {
 };
 
 const popular = async (req, res, next) => {
-  const data = await PopularMeals
-    .find({}, '-_id -users')
+  const data = await PopularMeals.find({}, '-_id -users')
     .sort({ users: 1 })
     .limit(popularRecipesLimit);
 
