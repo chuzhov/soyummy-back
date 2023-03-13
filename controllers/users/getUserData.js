@@ -15,13 +15,13 @@ const getUserData = async (req, res) => {
     .findOne({_id: id })
     .select("_id name email avatarURL accessToken achievements");
     res.json({
-      accessToken,
+      accessToken: user.accessToken,
       user: {
         id: user._id,
         name: user.name,
         email: user.email,
         avatarURL: user.avatarURL,
-        achievements: user.achievements,
+       // achievements: user.achievements,
       },
     });
 };
