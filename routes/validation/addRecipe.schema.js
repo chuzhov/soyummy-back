@@ -2,7 +2,7 @@ const Joi = require("joi");
 
 
 const addRecipeSchema = Joi.object().keys({
-    imgURL: Joi.string(),
+    picture: Joi.string(),
     title: Joi.string().required(),
     about: Joi.string().required(),
     category: Joi.string().required(),

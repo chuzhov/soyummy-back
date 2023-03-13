@@ -2,12 +2,15 @@ const bcrypt = require("bcrypt");
 
 const { User } = require("../../models");
 
+const { DEFAULT_AVATAR_iMG_URL } = require('../../config/defaults');
+
 const {
   HttpError,
 } = require("../../routes/errors/HttpErrors");
 
 const addUser = async (req, res) => {
   const { name, email, password } = req.body;
+  const avatar = req.file?.path || DEFAULT_AVATAR_iMG_URL;
   // check if user already exist
   const user = await User.findOne({ email });
 
@@ -27,6 +30,7 @@ const addUser = async (req, res) => {
     name,
     email,
     password: hashedPassword,
+    avatarURL: avatar
   });
   // send response to front-end
   res.status(201).json({
