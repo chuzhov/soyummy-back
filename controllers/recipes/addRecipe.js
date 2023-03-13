@@ -45,7 +45,7 @@ const addRecipe = async (req, res) => {
   if (result.length > 0) {
     throw HttpError(409, "Recipe is already created")
   }
-  await Recipe.create({ ...recipe, owner: _id, picture: pictureURL, ingredients: foundIngredients} );
+  await Recipe.create({ ...recipe, owner: _id, imgURL: pictureURL, ingredients: foundIngredients} );
     res.status(201).send('Recipe created successfully');
 };
 

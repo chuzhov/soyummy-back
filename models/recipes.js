@@ -28,7 +28,7 @@ const ingredientSchema = Schema(
 
 
 const recipeSchema = Schema({
-    picture: {
+    imgURL: {
         type: String,
         default: ""
     },
