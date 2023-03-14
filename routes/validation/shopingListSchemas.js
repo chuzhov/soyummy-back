@@ -1,13 +1,9 @@
 const Joi = require('joi');
 
 const addToShopingListSchema = Joi.object().keys({
-  ingridients: Joi.array().items({
-    ingridientName: Joi.string().required(),
-    number: Joi.string().required(),
-    imgURL: Joi.string().required(),
-  }),
+  strIngredient: Joi.string().required(),
+  weight: Joi.string().required(),
+  image: Joi.string().required(),
 });
 
-const deleteFromShopingListSchema = Joi.object().keys({ ingridientName: Joi.string().required() });
-
-module.exports = { addToShopingListSchema, deleteFromShopingListSchema };
+module.exports = { addToShopingListSchema };

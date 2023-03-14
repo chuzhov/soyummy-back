@@ -6,25 +6,18 @@ const shopingListSchema = Schema(
       type: String,
       required: true,
     },
-    listArr: {
-      type: [
-        {
-          ingridientName: {
-            type: String,
-            require: true,
-          },
-          number: {
-            type: String,
-            require: true,
-          },
-          imgURL: {
-            type: String,
-            require: true,
-          },
-          _id: false,
-        },
-      ],
-      required: true,
+
+    strIngredient: {
+      type: String,
+      require: true,
+    },
+    weight: {
+      type: String,
+      require: true,
+    },
+    image: {
+      type: String,
+      require: true,
     },
   },
   { versionKey: false }
