@@ -10,6 +10,8 @@ const {
 
 
 const addRecipe = async (req, res) => {
+
+  console.log("Hello from controller");
   const { _id } = req.user;
   const { ingredients, ...recipe } = req.body;
   const ingredientList = await instance.get('/list.php?i=list');
