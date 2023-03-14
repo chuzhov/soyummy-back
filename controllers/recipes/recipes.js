@@ -1,10 +1,10 @@
-const instance = require('../../helpers/instance');
+const { instance, setPaginationSlice } = require('../../helpers');
 const ctrl = require('../ctrlWrapper');
 const { HttpError } = require('../../routes/errors/HttpErrors');
 const { PopularMeals } = require('../../models/popularMeals');
 const { randomizeArray } = require('../../helpers/randomizeArray');
 
-const { popularRecipesLimit } = require('../../config/defaults');
+const { popularRecipesLimit, BASE_INGREDIENT_IMG_URL } = require('../../config/defaults');
 
 const categoryList = async (req, res, next) => {
   const { data } = await instance.get('/list.php?c=list');
@@ -60,7 +60,7 @@ const categoryId = async (req, res, next) => {
       if (!fullData[0][`strIngredient${ingridient}`]) break;
 
       fullData[0][`strIngredientImg${ingridient}`] =
-        'http://www.themealdb.com/images/ingredients/' +
+        BASE_INGREDIENT_IMG_URL +
         fullData[0][`strIngredient${ingridient}`] +
         '.png';
     }
@@ -75,11 +75,19 @@ const search = async (req, res, next) => {
   const {
     data: { meals },
   } = await instance.get(`search.php?s=${req.params.keyWord}`);
-  if (!meals) throw HttpError(400);
+  //if (!meals) throw HttpError(400);
+  if ( meals.length === 0 ) return res.json( { totalHits: 0, meals: [] } );
 
-  pagination > serialize
+  const { page = 1, per_page = meals.length } = req.query;
+  const pagination = setPaginationSlice(page, per_page, meals.length);
+  if (!pagination) {
+    throw HttpError(400, `Incorrect pagination params`);
+  }
 
-  res.json({ meals });
+  res.send({
+    totalHits: meals.length,
+    meals: meals.slice(pagination.start, pagination.end),
+  });
 };
 
 const popular = async (req, res, next) => {
