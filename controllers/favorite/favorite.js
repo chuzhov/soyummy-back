@@ -11,7 +11,7 @@ const getFavorites = async (req, res, next) => {
   // const skip = req.query.page > 0 ? (req.query.page - 1) * pageLimit : 0;
 
   const data = await PopularMeals.find({ users: _id }, "-_id -users");
-  if (data.length === 0) return res.json([]);
+  if ( data.length === 0 ) return res.json( { totalHits: 0, meals: [] } );
 
   const { page = 1, per_page = data.length } = req.query;
   const pagination = setPaginationSlice(page, per_page, data.length);
