@@ -76,6 +76,9 @@ const search = async (req, res, next) => {
     data: { meals },
   } = await instance.get(`search.php?s=${req.params.keyWord}`);
   if (!meals) throw HttpError(400);
+
+  pagination > serialize
+
   res.json({ meals });
 };
 
