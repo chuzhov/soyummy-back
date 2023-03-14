@@ -37,15 +37,25 @@ const multerConfiRecipe =  new CloudinaryStorage({
       folder: "assets/own_recipes_photos",
       allowed_formats: ["png", "jpeg"],
       public_id: recipeName,
-      transformation: [{ height: 250, width: 250, crop: "fill" }],
+      transformation: [{ height: 280, width: 270, crop: "fill" }],
     }
   }
 });
 
 function fileFilter(req, file, cb) {
+  if (!file) {
+    cb(
+      HttpError(
+        400,
+        "Field cannot be empty"
+      )
+    );
+  }
   if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
     cb(null, true);
-  } else {
+  }
+  else
+    {
     cb(
       HttpError(
         400,
