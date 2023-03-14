@@ -2,7 +2,8 @@ const setPagination = require("./setPagination");
 const setSort = require("./setSort");
 const setToken = require("./setToken");
 const sendEmail = require("./sendEmail");
-const instance = require("./instance")
+const instance = require("./instance");
+const transformRecipe = require("./transformRecipe");
 
 module.exports = {
   setPagination,
@@ -10,4 +11,5 @@ module.exports = {
   setToken,
   sendEmail,
   instance,
+  transformRecipe,
 };

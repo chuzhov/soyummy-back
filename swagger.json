@@ -514,6 +514,36 @@
       }
     },
     "/own-recipes/{id}": {
+      "get": {
+        "tags": ["Own-recipes"],
+        "summary": "Get own recipe by id",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "description": "Recipe's id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetOwnRecipeResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recipe with id not found",
+            "content": {}
+          }
+        }
+      },
       "delete": {
         "tags": ["Own-recipes"],
         "summary": "Delete own recipe",
@@ -528,9 +558,15 @@
           }
         ],
         "responses": {
-          "204": {
+          "200": {
             "description": "Successful operation",
-            "content": {}
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteOwnRecipeResponse"
+                }
+              }
+            }
           },
           "404": {
             "description": "Recipe with id not found",
@@ -1099,12 +1135,12 @@
             "title": {
               "type": "string",
               "description": "Recipe's name",
-              "example": ""
+              "example": "Donuts"
             },
             "about": {
               "type": "string",
               "description": "Recipe's about",
-              "example": ""
+              "example": "aboutDonuts"
             },
             "category": {
               "type": "string",
@@ -1140,23 +1176,29 @@
                   "ingredient": {
                     "type": "string",
                     "description": "Ingredient name",
-                    "example": ""
+                    "example": "Apple Cider Vinegar"
                   },
                   "qty": {
                     "type": "string",
                     "description": "Ingredient quantity",
-                    "example": ""
+                    "example": "9"
                   }
                 }
               },
               "example": [
                 {
-                  "ingredient": "Bread",
-                  "qty": "5"
+                  "ingredient": "Salmon",
+                  "qty": "300 g",
+                  "imgURL": "https://www.themealdb.com/images/ingredients/Salmon-Small.png",
+                  "description": "Salmon is the common name for several species of ray-finned fish in the family Salmonidae. Other fish in the same family include trout, char, grayling and whitefish. Salmon are native to tributaries of the North Atlantic (genus Salmo) and Pacific Ocean (genus Oncorhynchus). Many species of salmon have been introduced into non-native environments such as the Great Lakes of North America and Patagonia in South America. Salmon are intensively farmed in many parts of the world.\r\n\r\nTypically, salmon are anadromous: they hatch in fresh water, migrate to the ocean, then return to fresh water to reproduce. However, populations of several species are restricted to fresh water through their lives. Folklore has it that the fish return to the exact spot where they hatched to spawn. Tracking studies have shown this to be mostly true. A portion of a returning salmon run may stray and spawn in different freshwater systems; the percent of straying depends on the species of salmon. Homing behavior has been shown to depend on olfactory memory. Salmon date back to the Neogene.",
+                  "id": "2"
                 },
                 {
-                  "ingredient": "Cheese",
-                  "qty": "3"
+                  "ingredient": "Apple Cider Vinegar",
+                  "qty": "400 g",
+                  "imgURL": "https://www.themealdb.com/images/ingredients/Apple%20Cider%20Vinegar-Small.png",
+                  "description": "Apple cider vinegar, or cider vinegar, is a vinegar made from fermented apple juice, and used in salad dressings, marinades, vinaigrettes, food preservatives, and chutneys. It is made by crushing apples, then squeezing out the juice. Bacteria and yeast are added to the liquid to start the alcoholic fermentation process, which converts the sugars to alcohol. In a second fermentation step, the alcohol is converted into vinegar by acetic acid-forming bacteria (Acetobacter species). Acetic acid and malic acid combine to give vinegar its sour taste. Apple cider vinegar has no medicinal or nutritional value. There is no high-quality clinical evidence that regular consumption of apple cider vinegar helps to maintain or lose body weight, or is effective to manage blood glucose and lipid levels.",
+                  "id": "9"
                 }
               ]
             },
@@ -1224,31 +1266,31 @@
               "properties": {
                 "ingredient": {
                   "type": "string",
-                  "description": "Ingredient name",
-                  "example": ""
+                  "description": "Ingredient`s name",
+                  "example": "Pork"
                 },
                 "qty": {
                   "type": "string",
-                  "description": "Ingredient quantity",
-                  "example": ""
+                  "description": "Ingredient`s quantity",
+                  "example": "2000 tsp"
                 }
               }
             },
             "example": [
               {
-                "ingredient": "Bread",
-                "qty": "5"
+                "ingredient": "Pork",
+                "qty": "2000 tsp"
               },
               {
-                "ingredient": "Cheese",
-                "qty": "3"
+                "ingredient": "Salmon",
+                "qty": "300 g"
               }
             ]
           },
           "description": {
             "type": "string",
             "description": "Recipe's description",
-            "example": ""
+            "example": "Recipe's description"
           }
         }
       },
@@ -1259,6 +1301,106 @@
             "type": "string",
             "description": "Own recipe's id",
             "example": "640c84b78097084bc02b85ae"
+          }
+        }
+      },
+      "DeleteOwnRecipeResponse": {
+        "type": "object",
+        "properties": {
+          "Deleted: ": {
+            "type": "string",
+            "description": "Recipe's id",
+            "example": "640c84b78097084bc02b85ae"
+          }
+        }
+      },
+      "GetOwnRecipeResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Recipe's id",
+            "example": "640c84b78097084bc02b85ae"
+          },
+          "imgURL": {
+            "type": "string",
+            "description": "Recipe's image",
+            "example": "https://res.cloudinary.com/dcpsasqw8/image/upload/v1678474415/assets/own_recipes_photos/dafault.png"
+          },
+          "title": {
+            "type": "string",
+            "description": "Recipe's name",
+            "example": "Donuts"
+          },
+          "about": {
+            "type": "string",
+            "description": "Recipe's about",
+            "example": "aboutDonuts"
+          },
+          "category": {
+            "type": "string",
+            "description": "Category name",
+            "enum": [
+              "Beef",
+              "Breakfast",
+              "Chicken",
+              "Dessert",
+              "Goat",
+              "Lamb",
+              "Miscellaneous",
+              "Pasta",
+              "Pork",
+              "Seafood",
+              "Side",
+              "Starter",
+              "Vegan",
+              "Vegetarian"
+            ]
+          },
+          "cookingTime": {
+            "type": "string",
+            "description": "Recipe's cooking time",
+            "example": "20-30 min"
+          },
+          "ingredients": {
+            "type": "array",
+            "description": "Recipe's ingredients list",
+            "items": {
+              "type": "object",
+              "properties": {
+                "ingredient": {
+                  "type": "string",
+                  "description": "Ingredient name",
+                  "example": "Apple Cider Vinegar"
+                },
+                "qty": {
+                  "type": "string",
+                  "description": "Ingredient quantity",
+                  "example": "9"
+                }
+              }
+            },
+            "example": [
+              {
+                "ingredient": "Salmon",
+                "qty": "300 g",
+                "imgURL": "https://www.themealdb.com/images/ingredients/Salmon-Small.png",
+                "description": "Salmon is the common name for several species of ray-finned fish in the family Salmonidae. Other fish in the same family include trout, char, grayling and whitefish. Salmon are native to tributaries of the North Atlantic (genus Salmo) and Pacific Ocean (genus Oncorhynchus). Many species of salmon have been introduced into non-native environments such as the Great Lakes of North America and Patagonia in South America. Salmon are intensively farmed in many parts of the world.\r\n\r\nTypically, salmon are anadromous: they hatch in fresh water, migrate to the ocean, then return to fresh water to reproduce. However, populations of several species are restricted to fresh water through their lives. Folklore has it that the fish return to the exact spot where they hatched to spawn. Tracking studies have shown this to be mostly true. A portion of a returning salmon run may stray and spawn in different freshwater systems; the percent of straying depends on the species of salmon. Homing behavior has been shown to depend on olfactory memory. Salmon date back to the Neogene.",
+                "id": "2"
+              },
+              {
+                "ingredient": "Apple Cider Vinegar",
+                "qty": "400 g",
+                "imgURL": "https://www.themealdb.com/images/ingredients/Apple%20Cider%20Vinegar-Small.png",
+                "description": "Apple cider vinegar, or cider vinegar, is a vinegar made from fermented apple juice, and used in salad dressings, marinades, vinaigrettes, food preservatives, and chutneys. It is made by crushing apples, then squeezing out the juice. Bacteria and yeast are added to the liquid to start the alcoholic fermentation process, which converts the sugars to alcohol. In a second fermentation step, the alcohol is converted into vinegar by acetic acid-forming bacteria (Acetobacter species). Acetic acid and malic acid combine to give vinegar its sour taste. Apple cider vinegar has no medicinal or nutritional value. There is no high-quality clinical evidence that regular consumption of apple cider vinegar helps to maintain or lose body weight, or is effective to manage blood glucose and lipid levels.",
+                "id": "9"
+              }
+            ]
+          },
+          "description": {
+            "type": "string",
+            "description": "Recipe's description",
+            "example": ""
           }
         }
       }
