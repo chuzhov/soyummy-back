@@ -3,7 +3,7 @@ const { HttpError } = require('../../routes/errors/HttpErrors');
 const ctrl = require('../ctrlWrapper');
 
 const getList = async (req, res, next) => {
-  const shopingList = await ShopingList.find({ userId: req.user._id }, '-_id -userId');
+  const shopingList = await ShopingList.find({ userId: req.user._id }, '-userId');
 
   if (shopingList) {
     res.json({ shopingList });
@@ -21,10 +21,7 @@ const addToList = async (req, res, next) => {
 };
 
 const deleteFromList = async (req, res, next) => {
-  const data = await ShopingList.findOneAndDelete({
-    userId: req.user._id,
-    strIngredient: req.params.ingridientName,
-  });
+  const data = await ShopingList.findByIdAndDelete(req.params.id);
   if (data) {
     res.send({ id: data.idIngredient });
   } else {

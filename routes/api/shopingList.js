@@ -7,6 +7,6 @@ router.get('/', auth, getList);
 
 router.post('/', auth, validateBody(addToShopingListSchema), addToList);
 
-router.delete('/:ingridientName', auth, deleteFromList);
+router.delete('/:id', auth, deleteFromList);
 
 module.exports = router;
