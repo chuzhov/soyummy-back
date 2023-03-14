@@ -11,7 +11,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_SECRET,
 });
 
-const avatarParams = require('../models/users');
+const USER_AVATAR_PARAMS = require('../models/users');
 
 const multerConfigAvatar = new CloudinaryStorage({
   cloudinary,
@@ -19,9 +19,10 @@ const multerConfigAvatar = new CloudinaryStorage({
     const avatarName = `${req.user._id}_avatar.`;
     return {
       folder: "assets/avatars",
-      allowed_formats: ["png", "jpeg"],
+      allowed_formats: USER_AVATAR_PARAMS.acceptableFileTypes,
       public_id: avatarName,
-      avatarParams,
+      transformation: [{ height: USER_AVATAR_PARAMS.dimensions.width, width: USER_AVATAR_PARAMS.dimensions.width.height, crop: "fill" }],
+      bytes: USER_AVATAR_PARAMS.maxFileSize
     };
   },
 });

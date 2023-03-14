@@ -22,7 +22,7 @@ const addRecipe = async (req, res) => {
         ingredient,
         qty,
         description: foundIngredient.strDescription,
-        imgURL: `${BASE_INGREDIENT_IMG_URL}/${ingredient.replace(/\s/g, '%20')}-Small.png`,
+        imgURL: `${BASE_INGREDIENT_IMG_URL}/${ingredient.replace(/\s/g, '%20')}-small.png`,
         id: foundIngredient.idIngredient
       };
     })
