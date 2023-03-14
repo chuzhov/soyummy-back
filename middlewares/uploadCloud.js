@@ -16,12 +16,18 @@ const USER_AVATAR_PARAMS = require('../models/users');
 const multerConfigAvatar = new CloudinaryStorage({
   cloudinary,
   params: (req, file) => {
-    const avatarName = `${req.user._id}_avatar.`;
+    const avatarName = `${req.user._id}_avatar`;
     return {
       folder: "assets/avatars",
       allowed_formats: USER_AVATAR_PARAMS.acceptableFileTypes,
       public_id: avatarName,
-      transformation: [{ height: USER_AVATAR_PARAMS.dimensions.width, width: USER_AVATAR_PARAMS.dimensions.width.height, crop: "fill" }],
+      transformation: [{ 
+  //      height: USER_AVATAR_PARAMS.dimensions.height, 
+        height: 103,
+  //      width: USER_AVATAR_PARAMS.dimensions.width, 
+        width: 103,
+        crop: "fill" 
+      }],
       bytes: USER_AVATAR_PARAMS.maxFileSize
     };
   },
@@ -48,7 +54,7 @@ function fileFilter(req, file, cb) {
   } else {
     cb(
       HttpError(
-        400,
+        415,
         "Unsupported image format. Choose file with extention jpeg or png"
       )
     );
