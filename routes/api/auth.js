@@ -30,6 +30,6 @@ router.get("/user-data/:uid", auth, ctrl.getUserData);
 
 router.post("/logout", auth, ctrl.logoutUser);
 
-router.patch('/avatar', auth, upload.uploadCloudAvatar, ctrl.updateAvatar)
+router.patch('/user-data', auth, upload.uploadCloudAvatar, ctrl.updateAvatar)
 
 module.exports = router;
