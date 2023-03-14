@@ -19,6 +19,10 @@ const shopingListSchema = Schema(
       type: String,
       require: true,
     },
+    idIngredient: {
+      type: String,
+      require: true,
+    },
   },
   { versionKey: false }
 );
