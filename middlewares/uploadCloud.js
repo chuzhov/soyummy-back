@@ -71,7 +71,7 @@ const ingredientsParser = (req, res, next) => {
     req.body.ingredients = parsedData; 
     next();
   } catch (error) {
-    next(error);
+    next("Ingridient parser error: ", error);
   }
 };
 
