@@ -18,7 +18,7 @@ const getFavorites = async (req, res, next) => {
 
 const addFavorite = async (req, res, next) => {
   const { data } = await instance.get(`/lookup.php?i=${req.body.idMeal}`);
-  console.log(data);
+
   const fullData = data.meals;
 
   if (fullData) {

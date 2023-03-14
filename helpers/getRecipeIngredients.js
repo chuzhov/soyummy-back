@@ -1,7 +1,7 @@
 const instance = require("./instance");
 const { BASE_INGREDIENT_IMG_URL } = require("../config/defaults");
 
-async function transformRecipe(recipe) {
+async function getRecipeIngredients(recipe) {
   const ingredientsNames = [];
   const ingredientsValues = [];
   const allIngredients = await instance.get("/list.php?i=list");
@@ -37,4 +37,4 @@ async function transformRecipe(recipe) {
   }, []);
 }
 
-module.exports = transformRecipe;
+module.exports = getRecipeIngredients;
