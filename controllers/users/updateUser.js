@@ -4,9 +4,13 @@ const updateUser = async (req, res) => {
     const { _id } = req.user;
     
     const avatarURL = req?.file?.path ?? null;
-    const name = req.body.name;
+
+    const updateObj = { name: req.body?.name };
+    if (req?.file?.path) {
+      updateObj.avatarURL = req?.file?.path;
+    }
     
-    const user = await User.findByIdAndUpdate(_id, { avatarURL, name }, { new: true });
+    const user = await User.findByIdAndUpdate(_id, updateObj, { new: true });
 
     res.json({
       accessToken: user.accessToken,
