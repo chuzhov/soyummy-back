@@ -14,7 +14,7 @@ const schema = require("../validation/");
 
 const router = express.Router();
 
-router.post('/', auth,  upload.uploadCloudRecipe, upload.ingredientsParser, validateBody(schema.addRecipeSchema),  ctrl.addRecipe);
+router.post('/', auth, upload.ingredientsParser, validateBody(schema.addRecipeSchema), upload.uploadCloudRecipe, ctrl.addRecipe);
 
 router.get('/', auth, ctrl.fetchRecipesByOwner);
 
