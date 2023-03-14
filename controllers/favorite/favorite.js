@@ -1,17 +1,28 @@
-const ctrl = require('../ctrlWrapper');
-const instance = require('../../helpers/instance');
-const { PopularMeals } = require('../../models/popularMeals');
-const { HttpError } = require('../../routes/errors/HttpErrors');
-const { pageLimit } = require('../../config/defaults');
+const ctrl = require("../ctrlWrapper");
+const { instance, setPaginationSlice } = require("../../helpers");
+const { PopularMeals } = require("../../models/popularMeals");
+const { HttpError } = require("../../routes/errors/HttpErrors");
+
+const { FAV_MEALS_PER_PAGE } = require("../../config/defaults");
 
 const getFavorites = async (req, res, next) => {
   const { _id } = req.user;
+  // const { page = 1, limit = FAV_MEALS_PER_PAGE } = req.query;
+  // const skip = req.query.page > 0 ? (req.query.page - 1) * pageLimit : 0;
 
-  const skip = req.query.page > 0 ? (req.query.page - 1) * pageLimit : 0;
+  const data = await PopularMeals.find({ users: _id }, "-_id -users");
+  if (data.length === 0) res.json([]);
 
-  const data = await PopularMeals.find({ users: _id }, '-_id -users').skip(skip).limit(pageLimit);
+  const { page = 1, per_page = data.length } = req.query;
+  const pagination = setPaginationSlice(page, per_page, data.length);
+  if (!pagination) {
+    throw HttpError(400, `Incorrect pagination params`);
+  }
 
-  res.json({ data });
+  res.send({
+    totalHits: data.length,
+    meals: data.slice(pagination.start, pagination.end),
+  });
 };
 
 const addFavorite = async (req, res, next) => {
@@ -38,18 +49,24 @@ const addFavorite = async (req, res, next) => {
       });
     }
 
-    res.status(201).json({ message: 'Added to favorite' });
+    res.status(201).json({ message: "Added to favorite" });
   } else {
     throw HttpError(400);
   }
 };
 
 const deleteFavorite = async (req, res, next) => {
-  const data = await PopularMeals.findOne({ idMeal: req.params.idMeal, users: req.user._id });
+  const data = await PopularMeals.findOne({
+    idMeal: req.params.idMeal,
+    users: req.user._id,
+  });
 
   if (data) {
     if (data.users.length === 1) {
-      await PopularMeals.deleteOne({ idMeal: req.params.idMeal, users: req.user._id });
+      await PopularMeals.deleteOne({
+        idMeal: req.params.idMeal,
+        users: req.user._id,
+      });
     } else {
       await PopularMeals.findOneAndUpdate(
         { idMeal: req.params.idMeal, users: req.user._id },
@@ -57,10 +74,13 @@ const deleteFavorite = async (req, res, next) => {
       );
     }
     res.json({
-      id: req.params.idMeal
-    })
+      id: req.params.idMeal,
+    });
   } else {
-    throw HttpError(404, `The meal with ${req.params.idMeal} was not found in favorites`);
+    throw HttpError(
+      404,
+      `The meal with ${req.params.idMeal} was not found in favorites`
+    );
   }
 };
 

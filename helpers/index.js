@@ -3,7 +3,8 @@ const setPaginationSlice = require("./setPaginationSlice");
 const setSort = require("./setSort");
 const setToken = require("./setToken");
 const sendEmail = require("./sendEmail");
-const instance = require("./instance")
+const instance = require("./instance");
+const getRecipeIngredients = require("./getRecipeIngredients");
 
 module.exports = {
   setPagination,
@@ -12,4 +13,5 @@ module.exports = {
   setToken,
   sendEmail,
   instance,
+  getRecipeIngredients,
 };
