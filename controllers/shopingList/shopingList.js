@@ -26,7 +26,7 @@ const deleteFromList = async (req, res, next) => {
     strIngredient: req.params.ingridientName,
   });
   if (data) {
-    res.send({ id: idIngredient });
+    res.send({ id: data.idIngredient });
   } else {
     throw HttpError(400);
   }
