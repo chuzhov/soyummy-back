@@ -13,9 +13,9 @@ const getList = async (req, res, next) => {
 };
 
 const addToList = async (req, res, next) => {
-  const { strIngredient, weight, image } = req.body;
+  const { strIngredient, weight, image, idIngredient } = req.body;
 
-  await ShopingList.create({ userId: req.user._id, strIngredient, weight, image });
+  await ShopingList.create({ userId: req.user._id, strIngredient, weight, image, idIngredient });
 
   res.status(201).json({ message: 'Added to  list' });
 };
@@ -26,7 +26,7 @@ const deleteFromList = async (req, res, next) => {
     strIngredient: req.params.ingridientName,
   });
   if (data) {
-    res.status(204).send();
+    res.send({ id: idIngredient });
   } else {
     throw HttpError(400);
   }
