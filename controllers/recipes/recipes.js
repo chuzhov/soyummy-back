@@ -3,6 +3,7 @@ const ctrl = require('../ctrlWrapper');
 const { HttpError } = require('../../routes/errors/HttpErrors');
 const { PopularMeals } = require('../../models/popularMeals');
 const { randomizeArray } = require('../../helpers/randomizeArray');
+const getRecipeIngredients = require('../../helpers/getRecipeIngredients');
 
 const { popularRecipesLimit, BASE_INGREDIENT_IMG_URL } = require('../../config/defaults');
 
@@ -56,16 +57,31 @@ const categoryId = async (req, res, next) => {
   const fullData = data.meals;
 
   if (fullData) {
-    for (let ingridient = 1; ingridient < 21; ingridient++) {
-      if (!fullData[0][`strIngredient${ingridient}`]) break;
+    // for (let ingridient = 1; ingridient < 21; ingridient++) {
+    //   if (!fullData[0][`strIngredient${ingridient}`]) break;
 
-      fullData[0][`strIngredientImg${ingridient}`] =
-        BASE_INGREDIENT_IMG_URL +
-        fullData[0][`strIngredient${ingridient}`] +
-        '.png';
-    }
+    //   fullData[0][`strIngredientImg${ingridient}`] =
+    //     BASE_INGREDIENT_IMG_URL + fullData[0][`strIngredient${ingridient}`] + '.png';
+    // }
+    const {
+      strMealThumb: imgURL,
+      strMeal: title,
+      strArea: about,
+      strCategory: category,
+      cookingTime = '',
+      strInstructions: description,
+    } = fullData[0];
 
-    res.json(fullData[0]);
+    const result = {
+      imgURL,
+      title,
+      about,
+      category,
+      cookingTime,
+      description,
+      ingredients: await getRecipeIngredients(fullData[0]),
+    };
+    res.json(result);
   } else {
     throw HttpError(404);
   }
@@ -76,7 +92,7 @@ const search = async (req, res, next) => {
     data: { meals },
   } = await instance.get(`search.php?s=${req.params.keyWord}`);
   //if (!meals) throw HttpError(400);
-  if ( meals.length === 0 ) return res.json( { totalHits: 0, meals: [] } );
+  if (meals.length === 0) return res.json({ totalHits: 0, meals: [] });
 
   const { page = 1, per_page = meals.length } = req.query;
   const pagination = setPaginationSlice(page, per_page, meals.length);
