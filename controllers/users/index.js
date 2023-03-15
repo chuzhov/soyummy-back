@@ -2,7 +2,7 @@ const addUser = require("./addUser");
 const loginUser = require("./loginUser");
 const logoutUser = require("./logoutUser");
 const getUserData = require("./getUserData");
-const updateAvatar = require('./updateAvatar')
+const updateUser = require('./updateUser')
 const ctrlWrapper = require("../ctrlWrapper");
 
 module.exports = {
@@ -10,5 +10,5 @@ module.exports = {
   loginUser: ctrlWrapper(loginUser),
   getUserData: ctrlWrapper(getUserData),
   logoutUser: ctrlWrapper(logoutUser),
-  updateAvatar: ctrlWrapper(updateAvatar)
+  updateUser: ctrlWrapper(updateUser)
 };

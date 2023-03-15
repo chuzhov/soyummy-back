@@ -1,4 +1,5 @@
 const express = require("express");
+const { valid } = require( "joi" );
 
 const {
   users: ctrl,
@@ -30,6 +31,11 @@ router.get("/user-data/:uid", auth, ctrl.getUserData);
 
 router.post("/logout", auth, ctrl.logoutUser);
 
-router.patch('/user-data', auth, upload.uploadCloudAvatar, ctrl.updateAvatar)
+router.patch('/user-data', 
+  auth, 
+  upload.uploadCloudAvatar, 
+  validateBody(schema.updateUser),
+  ctrl.updateUser
+);
 
 module.exports = router;
