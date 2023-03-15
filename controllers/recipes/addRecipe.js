@@ -15,6 +15,7 @@ const addRecipe = async (req, res) => {
   const ingredientList = await instance.get('/list.php?i=list');
   const pictureURL = req.file?.path || DEFAULT_RECIPE_IMG_URL;
   
+ 
   const foundIngredients = ingredients
     .map(({ ingredient, qty }) => {
       const foundIngredient = ingredientList.data.meals.find(item => item.strIngredient === ingredient);
@@ -39,7 +40,7 @@ const addRecipe = async (req, res) => {
   }
 
   await Recipe.create({ ...recipe, owner: _id, imgURL: pictureURL, ingredients: foundIngredients });
-  res.status(201).send({...recipe,imgURL: pictureURL});
+  res.json({...recipe,imgURL: pictureURL});
 };
 
 module.exports = addRecipe;
