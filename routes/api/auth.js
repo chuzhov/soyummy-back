@@ -8,6 +8,7 @@ const {
 const {
   validateBody,
   auth,
+  authLogout,
   upload
 } = require("../../middlewares");
 
@@ -29,7 +30,7 @@ router.post(
 
 router.get("/user-data/:uid", auth, ctrl.getUserData);
 
-router.post("/logout", auth, ctrl.logoutUser);
+router.post("/logout", authLogout, ctrl.logoutUser);
 
 router.patch('/user-data', 
   auth, 
