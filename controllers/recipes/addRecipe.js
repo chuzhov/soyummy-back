@@ -39,8 +39,17 @@ const addRecipe = async (req, res) => {
     throw HttpError(409, "Recipe is already created");
   }
 
-  await Recipe.create({ ...recipe, owner: _id, imgURL: pictureURL, ingredients: foundIngredients });
-  res.json({...recipe,imgURL: pictureURL});
+  const newRecipe = await Recipe.create({ ...recipe, owner: _id, imgURL: pictureURL, ingredients: foundIngredients });
+  
+  res.json(
+    {
+      id: newRecipe._id,
+      title: newRecipe.title,
+      category: newRecipe.category,
+      description: newRecipe.description,
+      imgURL: newRecipe.imgURL,
+      about: newRecipe.about
+    });
 };
 
 module.exports = addRecipe;
