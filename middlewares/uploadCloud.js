@@ -41,9 +41,9 @@ const multerConfiRecipe =  new CloudinaryStorage({
     const recipeName = `${_id}_${imgID}_recipe`;
     return {
       folder: "assets/own_recipes_photos",
-      allowed_formats: ["png", "jpeg"],
+      allowed_formats: ["png", "jpg", "jpeg"],
       public_id: recipeName,
-      transformation: [{ height: 250, width: 250, crop: "fill" }],
+      transformation: [{ height: 280, width: 270, crop: "fill" }],
     }
   }
 });
@@ -75,11 +75,10 @@ const ingredientsParser = (req, res, next) => {
    const { ingredients } = req.body;
   try {
     const parsedData = JSON.parse(ingredients);
-    console.log(parsedData);
     req.body.ingredients = parsedData; 
     next();
   } catch (error) {
-    next("Ingridient parser error: ", error);
+    next(error);
   }
 };
 

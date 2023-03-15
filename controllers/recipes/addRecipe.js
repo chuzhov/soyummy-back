@@ -8,14 +8,12 @@ const {
   HttpError,
 } = require("../../routes/errors/HttpErrors");
 
-
 const addRecipe = async (req, res) => {
 
-  console.log("Hello from controller");
   const { _id } = req.user;
   const { ingredients, ...recipe } = req.body;
   const ingredientList = await instance.get('/list.php?i=list');
-  const pictureURL = req.file?.path || DEFAULT_RECIPE_IMG_URL;
+  const pictureURL = req.file?.path ?? DEFAULT_RECIPE_IMG_URL;
   
   const foundIngredients = ingredients
     .map(({ ingredient, qty }) => {
@@ -40,8 +38,24 @@ const addRecipe = async (req, res) => {
     throw HttpError(409, "Recipe is already created");
   }
 
-  await Recipe.create({ ...recipe, owner: _id, imgURL: pictureURL, ingredients: foundIngredients });
-  res.status(201).send('Recipe created successfully');
+  const newRecipe = await Recipe.
+    create({ 
+      ...recipe, 
+      owner: _id, 
+      imgURL: pictureURL, 
+      ingredients: foundIngredients 
+    });
+
+  res.json(
+    {
+      id: newRecipe._id,
+      title: newRecipe.title,
+      category: newRecipe.category,
+      description: newRecipe.description,
+      imgURL: newRecipe.imgURL,
+      about: newRecipe.about
+    }
+  );
 };
 
 module.exports = addRecipe;

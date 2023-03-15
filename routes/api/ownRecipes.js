@@ -10,17 +10,16 @@ const {
   recipes: ctrl,
 } = require("../../controllers/");
 
-const errorWrapper = require("../../controllers/errorWrapper");
-
 const schema = require("../validation/");
 
 const router = express.Router();
 
 router.post('/', 
   auth, 
-  errorWrapper( upload.uploadCloudRecipe ), 
+  upload.uploadCloudRecipe, 
   upload.ingredientsParser, 
-  validateBody(schema.addRecipeSchema), ctrl.addRecipe
+  validateBody(schema.addRecipeSchema), 
+  ctrl.addRecipe
 );
 
 router.get('/', auth, ctrl.fetchRecipesByOwner);
