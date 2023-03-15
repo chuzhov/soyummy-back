@@ -11,10 +11,11 @@ const auth = async (req, res, next) => {
   const { authorization = "" } = req.headers; // = "" if headers doesn't contain authorization
   const [bearer, accessToken] =
     authorization.split(" ");
-  if (bearer !== "Bearer") {
-    next(HttpError(401, "Not authorized"));
+try {
+
+  if (bearer !== "Bearer" || !accessToken) {
+    throw HttpError(401);
   }
-  try {
     const { id } = jwt.verify(
       accessToken,
       SECRET_KEY
