@@ -57,16 +57,10 @@ const categoryId = async (req, res, next) => {
   const fullData = data.meals;
 
   if (fullData) {
-    // for (let ingridient = 1; ingridient < 21; ingridient++) {
-    //   if (!fullData[0][`strIngredient${ingridient}`]) break;
-
-    //   fullData[0][`strIngredientImg${ingridient}`] =
-    //     BASE_INGREDIENT_IMG_URL + fullData[0][`strIngredient${ingridient}`] + '.png';
-    // }
     const {
       strMealThumb: imgURL,
       strMeal: title,
-      strArea: about,
+      about = [],
       strCategory: category,
       cookingTime = '',
       strInstructions: description,
