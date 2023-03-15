@@ -75,6 +75,7 @@ const ingredientsParser = (req, res, next) => {
    const { ingredients } = req.body;
   try {
     const parsedData = JSON.parse(ingredients);
+    console.log(parsedData);
     req.body.ingredients = parsedData; 
     next();
   } catch (error) {

@@ -19,7 +19,7 @@ const router = express.Router();
 router.post('/', 
   auth, 
   errorWrapper( upload.uploadCloudRecipe ), 
-//  upload.ingredientsParser, 
+  upload.ingredientsParser, 
   validateBody(schema.addRecipeSchema), ctrl.addRecipe
 );
 
