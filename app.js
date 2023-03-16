@@ -1,6 +1,7 @@
 const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
+const fs = require('fs');
 require('dotenv').config();
 const bodyParser = require('body-parser');
 const swaggerUi = require('swagger-ui-express');
@@ -18,6 +19,11 @@ const app = express();
 
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 
+app.use(
+  logger('common', {
+    stream: fs.createWriteStream('./public/server.log', { flags: 'a' }),
+  })
+);
 app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
