@@ -3,7 +3,10 @@ const { HttpError } = require('../../routes/errors/HttpErrors');
 const ctrl = require('../ctrlWrapper');
 
 const getList = async (req, res, next) => {
-  const shopingList = await ShopingList.find({ userId: req.user._id }, '-userId');
+  const shopingList = await ShopingList.find(
+    { userId: req.user._id },
+    '-userId'
+  );
 
   if (shopingList) {
     res.json({ shopingList });
@@ -13,9 +16,14 @@ const getList = async (req, res, next) => {
 };
 
 const addToList = async (req, res, next) => {
-  const { strIngredient, weight, image, idIngredient } = req.body;
+  const { strIngredient, weight, image } = req.body;
 
-  await ShopingList.create({ userId: req.user._id, strIngredient, weight, image, idIngredient });
+  await ShopingList.create({
+    userId: req.user._id,
+    strIngredient,
+    weight,
+    image,
+  });
 
   res.status(201).json({ message: 'Added to  list' });
 };
@@ -23,7 +31,7 @@ const addToList = async (req, res, next) => {
 const deleteFromList = async (req, res, next) => {
   const data = await ShopingList.findByIdAndDelete(req.params.id);
   if (data) {
-    res.send({ id: data.idIngredient });
+    res.send({ id: data._id });
   } else {
     throw HttpError(400);
   }
