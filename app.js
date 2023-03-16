@@ -1,7 +1,6 @@
 const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
-const apicache = require("apicache-plus");
 require("dotenv").config();
 const bodyParser = require("body-parser");
 const swaggerUi = require("swagger-ui-express");
@@ -21,7 +20,6 @@ const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
 app.use(logger(formatsLogger));
 app.use(cors());
-app.use(apicache("180 minutes"));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
