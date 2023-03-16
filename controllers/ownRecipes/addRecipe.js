@@ -1,17 +1,17 @@
 const { Recipe } = require('../../models');
-
-const { DEFAULT_RECIPE_IMG_URL } = require('../../config/defaults');
-const { BASE_INGREDIENT_IMG_URL } = require('../../config/defaults');
-
-const { fetchIngredientsList } = require('../../helpers/instance');
+const { fetchIngredientsList } = require('../../services');
 const { HttpError } = require('../../routes/errors/HttpErrors');
+const {
+  DEFAULT_RECIPE_IMG_URL,
+  BASE_INGREDIENT_IMG_URL,
+} = require('../../config/defaults');
 
 const addRecipe = async (req, res) => {
   const { _id } = req.user;
   const { ingredients, ...recipe } = req.body;
+  const pictureURL = req.file?.path ?? DEFAULT_RECIPE_IMG_URL;
 
   const ingredientList = await fetchIngredientsList();
-  const pictureURL = req.file?.path ?? DEFAULT_RECIPE_IMG_URL;
 
   const foundIngredients = ingredients
     .map(({ ingredient, qty }) => {
@@ -43,7 +43,7 @@ const addRecipe = async (req, res) => {
   });
 
   if (result) {
-    throw HttpError(409, 'Recipe is already created');
+    throw HttpError(409, 'Recipe was already created');
   }
 
   const newRecipe = await Recipe.create({

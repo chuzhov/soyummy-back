@@ -1,24 +1,17 @@
-const express = require("express");
+const express = require('express');
 
-const {
-  validateBody,
-  auth,
-  upload
-} = require("../../middlewares");
-
-const {
-  recipes: ctrl,
-} = require("../../controllers/");
-
-const schema = require("../validation/");
+const { validateBody, auth, upload } = require('../../middlewares');
+const { ownRecipes: ctrl } = require('../../controllers/');
+const schema = require('../validation/');
 
 const router = express.Router();
 
-router.post('/', 
-  auth, 
-  upload.uploadCloudRecipe, 
-  upload.ingredientsParser, 
-  validateBody(schema.addRecipeSchema), 
+router.post(
+  '/',
+  auth,
+  upload.uploadCloudRecipe,
+  upload.ingredientsParser,
+  validateBody(schema.addRecipeSchema),
   ctrl.addRecipe
 );
 
