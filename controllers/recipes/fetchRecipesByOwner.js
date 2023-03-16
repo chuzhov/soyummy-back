@@ -13,7 +13,7 @@ const fetchRecipesByOwner = async (req, res) => {
 
   res.json({
     totalHits: meals.length,
-    meals: meals,
+    meals: meals.slice(pagination.start, pagination.end),
   });
 };
 
