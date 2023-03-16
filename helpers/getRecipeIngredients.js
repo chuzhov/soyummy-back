@@ -16,7 +16,7 @@ async function getRecipeIngredients(recipe) {
   }
 
   return ingredientsNames.reduce((acc, ingredientName, index) => {
-    const ingredientInfo = allIngredients.data.meals.find(
+    const ingredientInfo = allIngredients.meals.find(
       item => item.strIngredient.toLowerCase() === ingredientName.toLowerCase()
     );
 
