@@ -15,7 +15,7 @@ const addRecipe = async (req, res) => {
 
   const foundIngredients = ingredients
     .map(({ ingredient, qty }) => {
-      const foundIngredient = ingredientList.data.meals.find(
+      const foundIngredient = ingredientList.meals.find(
         item => item.strIngredient === ingredient
       );
       return (
