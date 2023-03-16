@@ -3,14 +3,14 @@ const { Recipe } = require('../../models');
 const { DEFAULT_RECIPE_IMG_URL } = require('../../config/defaults');
 const { BASE_INGREDIENT_IMG_URL } = require('../../config/defaults');
 
-const instance = require('../../helpers/instance');
+const { fetchIngredientsList } = require('../../helpers/instance');
 const { HttpError } = require('../../routes/errors/HttpErrors');
 
 const addRecipe = async (req, res) => {
   const { _id } = req.user;
   const { ingredients, ...recipe } = req.body;
-  
-  const ingredientList = await instance.get('/list.php?i=list');
+
+  const ingredientList = await fetchIngredientsList();
   const pictureURL = req.file?.path ?? DEFAULT_RECIPE_IMG_URL;
 
   const foundIngredients = ingredients
