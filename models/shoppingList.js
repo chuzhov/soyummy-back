@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 
-const shopingListSchema = Schema(
+const shoppingListSchema = Schema(
   {
     userId: {
       type: String,
@@ -23,6 +23,6 @@ const shopingListSchema = Schema(
   { versionKey: false }
 );
 
-const ShopingList = model('shopingList', shopingListSchema);
+const ShoppingList = model('shoppingList', shoppingListSchema);
 
-module.exports = { ShopingList };
+module.exports = { ShoppingList };

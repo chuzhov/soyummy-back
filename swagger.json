@@ -621,7 +621,7 @@
     "shopping-list": {
       "get": {
         "tags": ["Shopping-list"],
-        "summary": "User's shoping list",
+        "summary": "User's shopping list",
         "security": [{ "Bearer": [] }],
         "parameters": [],
         "responses": {
@@ -630,7 +630,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ShopingListResponse"
+                  "$ref": "#/components/schemas/ShoppingListResponse"
                 }
               }
             }
@@ -643,7 +643,7 @@
       },
       "post": {
         "tags": ["Shopping-list"],
-        "summary": "Add ingredient to user's shoping list",
+        "summary": "Add ingredient to user's shopping list",
         "security": [{ "Bearer": [] }],
         "parameters": [],
         "requestBody": {
@@ -652,7 +652,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AddToShopingListRequest"
+                "$ref": "#/components/schemas/AddToShoppingListRequest"
               }
             }
           }
@@ -663,7 +663,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AddToShopingListResponse"
+                  "$ref": "#/components/schemas/AddToShoppingListResponse"
                 }
               }
             }
@@ -674,7 +674,7 @@
     "shopping-list/{ingredientName}": {
       "delete": {
         "tags": ["Shopping-list"],
-        "summary": "Delete ingredient from shoping list",
+        "summary": "Delete ingredient from shopping list",
         "security": [{ "Bearer": [] }],
         "parameters": [
           {
@@ -691,7 +691,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DeleteFromShopingListResponse"
+                  "$ref": "#/components/schemas/DeleteFromShoppingListResponse"
                 }
               }
             }
@@ -1604,9 +1604,9 @@
           }
         }
       },
-      "ShopingListResponse": {
+      "ShoppingListResponse": {
         "type": "array",
-        "description": "User's shoping list",
+        "description": "User's shopping list",
         "items": {
           "type": "object",
           "properties": {
@@ -1638,7 +1638,7 @@
           }
         }
       },
-      "AddToShopingListRequest": {
+      "AddToShoppingListRequest": {
         "type": "object",
         "properties": {
           "strIngredient": {
@@ -1663,7 +1663,7 @@
           }
         }
       },
-      "AddToShopingListResponse": {
+      "AddToShoppingListResponse": {
         "type": "object",
         "properties": {
           "message": {
@@ -1673,7 +1673,7 @@
           }
         }
       },
-      "DeleteFromShopingListResponse": {
+      "DeleteFromShoppingListResponse": {
         "type": "object",
         "properties": {
           "id": {
