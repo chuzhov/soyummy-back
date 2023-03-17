@@ -7,11 +7,7 @@ const getShoppingList = async (req, res, next) => {
     '-userId'
   );
 
-  if (shoppingList) {
-    res.json(shoppingList);
-  } else {
-    throw HttpError(404, 'List not found');
-  }
+  res.json(shoppingList);
 };
 
 module.exports = getShoppingList;
