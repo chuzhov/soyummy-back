@@ -34,8 +34,8 @@
       "description": "Ingredients endpoints"
     },
     {
-      "name": "Shoping-list",
-      "description": "Shoping-list endpoints"
+      "name": "Shopping-list",
+      "description": "Shopping-list endpoints"
     }
   ],
   "paths": {
@@ -618,9 +618,9 @@
         }
       }
     },
-    "shoping-list": {
+    "shopping-list": {
       "get": {
-        "tags": ["Shoping-list"],
+        "tags": ["Shopping-list"],
         "summary": "User's shoping list",
         "security": [{ "Bearer": [] }],
         "parameters": [],
@@ -642,7 +642,7 @@
         }
       },
       "post": {
-        "tags": ["Shoping-list"],
+        "tags": ["Shopping-list"],
         "summary": "Add ingredient to user's shoping list",
         "security": [{ "Bearer": [] }],
         "parameters": [],
@@ -671,15 +671,15 @@
         }
       }
     },
-    "shoping-list/{ingridientName}": {
+    "shopping-list/{ingredientName}": {
       "delete": {
-        "tags": ["Shoping-list"],
+        "tags": ["Shopping-list"],
         "summary": "Delete ingredient from shoping list",
         "security": [{ "Bearer": [] }],
         "parameters": [
           {
             "in": "path",
-            "name": "ingridientName",
+            "name": "ingrieientName",
             "required": true,
             "type": "string",
             "description": "Ingredient's name"
