@@ -3,7 +3,7 @@ const ingredients = require('./ingredients');
 const recipes = require('./recipes');
 const favorite = require('./favorite');
 const ownRecipes = require('./ownRecipes');
-const shopingList = require('./shopingList');
+const shoppingList = require('./shoppingList');
 
 module.exports = {
   users,
@@ -11,5 +11,5 @@ module.exports = {
   recipes,
   favorite,
   ownRecipes,
-  shopingList,
+  shoppingList,
 };

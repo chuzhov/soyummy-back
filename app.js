@@ -13,7 +13,7 @@ const ingredientsRouter = require('./routes/api/ingredients');
 const recipesRouter = require('./routes/api/recipes');
 const ownRecipesRouter = require('./routes/api/ownRecipes');
 const favoriteRouter = require('./routes/api/favorite');
-const shopingListRouter = require('./routes/api/shopingList');
+const shoppingListRouter = require('./routes/api/shoppingList');
 
 const app = express();
 
@@ -39,7 +39,7 @@ app.use('/recipes', recipesRouter);
 app.use('/ingredients', ingredientsRouter);
 app.use('/own-recipes', ownRecipesRouter);
 app.use('/favorite', favoriteRouter);
-app.use('/shoping-list', shopingListRouter);
+app.use('/shopping-list', shoppingListRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found' });
