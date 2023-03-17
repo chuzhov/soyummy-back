@@ -4,9 +4,9 @@ const { fetchRecipeById } = require('../../services');
 const addFavorite = async (req, res) => {
   const { idMeal: idRecipe } = req.body;
   const { _id } = req.user;
-  const fullData = await fetchRecipeById(idRecipe);
+  const { meals } = await fetchRecipeById(idRecipe);
 
-  const { idMeal, strMeal, strInstructions, strMealThumb } = fullData[0];
+  const { idMeal, strMeal, strInstructions, strMealThumb } = meals[0];
 
   const isPopular = await PopularMeals.findOneAndUpdate(
     { idMeal: idRecipe },
