@@ -1,6 +1,5 @@
 const { Recipe } = require('../../models');
 const { setPaginationSlice } = require('../../helpers');
-const { HttpError } = require('../../routes/errors/HttpErrors');
 
 const fetchRecipesByOwner = async (req, res) => {
   const { _id: owner } = req.user;
@@ -8,13 +7,10 @@ const fetchRecipesByOwner = async (req, res) => {
   const meals = await Recipe.find({ owner }, '-owner, -__v ');
 
   const pagination = setPaginationSlice(page, per_page, meals.length);
-  if (!pagination) {
-    throw HttpError(400, 'Incorrect pagination params');
-  }
 
   res.json({
     totalHits: meals.length,
-    meals: meals.slice(pagination.start, pagination.end),
+    meals: pagination ? meals.slice(pagination.start, pagination.end) : [],
   });
 };
 
