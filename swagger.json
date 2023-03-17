@@ -1,5 +1,5 @@
 {
-  "openapi": "3.0.1",
+  "openapi": "3.0.3",
   "info": {
     "version": "2.0.1",
     "title": "SoYummy API docs",
@@ -9,9 +9,11 @@
       "url": "https://opensource.org/licenses/MIT"
     }
   },
-  "consumes": ["application/json", "multipart/form-data"],
-  "produces": ["application/json"],
-  "servers": [{ "url": "https://soyummy.onrender.com/" }],
+  "servers": [
+    {
+      "url": "https://soyummy.onrender.com/"
+    }
+  ],
   "tags": [
     {
       "name": "Auth",
@@ -111,7 +113,11 @@
       "get": {
         "tags": ["Auth"],
         "summary": "Get user info",
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "parameters": [],
         "responses": {
           "200": {
@@ -129,7 +135,11 @@
       "patch": {
         "tags": ["Auth"],
         "summary": "Update user's info",
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "parameters": [],
         "requestBody": {
           "description": "Updated user's info",
@@ -159,12 +169,22 @@
       "post": {
         "tags": ["Auth"],
         "summary": "Logout",
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "parameters": [],
         "responses": {
-          "204": {
+          "200": {
             "description": "Successful operation",
-            "content": {}
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LogoutResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -173,7 +193,11 @@
       "get": {
         "tags": ["Ingredients"],
         "summary": "Ingredients list",
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "parameters": [],
         "responses": {
           "200": {
@@ -197,14 +221,20 @@
       "get": {
         "tags": ["Ingredients"],
         "summary": "Recipes list by query",
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
             "name": "q",
             "required": true,
-            "type": "string",
-            "description": "Ingredient name"
+            "description": "Ingredient name",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -233,7 +263,11 @@
       "get": {
         "tags": ["Favorite"],
         "summary": "Favorite recipes list",
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "parameters": [],
         "responses": {
           "200": {
@@ -247,7 +281,7 @@
             }
           },
           "400": {
-            "description": "Bad Request",
+            "description": "Incorrect pagination params",
             "content": {}
           }
         }
@@ -255,7 +289,11 @@
       "post": {
         "tags": ["Favorite"],
         "summary": "Add recipe to favorite",
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "parameters": [],
         "requestBody": {
           "description": "Recipe's id",
@@ -284,18 +322,26 @@
             "content": {}
           }
         }
-      },
+      }
+    },
+    "/favorite/{idMeal}": {
       "delete": {
         "tags": ["Favorite"],
         "summary": "Delete recipe from favorite",
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
             "name": "idMeal",
             "required": true,
-            "type": "string",
-            "description": "Recipe's id"
+            "description": "Recipe's id",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -308,11 +354,11 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
           }
-        },
-        "404": {
-          "description": "Not found",
-          "content": {}
         }
       }
     },
@@ -320,7 +366,11 @@
       "get": {
         "tags": ["Recipes"],
         "summary": "Categories list",
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "parameters": [],
         "responses": {
           "200": {
@@ -332,6 +382,10 @@
                 }
               }
             }
+          },
+          "500": {
+            "description": "Categories not found.",
+            "content": {}
           }
         }
       }
@@ -340,14 +394,20 @@
       "get": {
         "tags": ["Recipes"],
         "summary": "Recipes list by category",
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
             "name": "categoryName",
             "required": true,
-            "type": "string",
-            "description": "Category name"
+            "description": "Category name",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -361,8 +421,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "404": {
+            "description": "Recipes by category not found.",
             "content": {}
           }
         }
@@ -372,21 +432,29 @@
       "get": {
         "tags": ["Recipes"],
         "summary": "Recipes list by category with limit",
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
             "name": "category",
             "required": true,
-            "type": "string",
-            "description": "Category name"
+            "description": "Category name",
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "in": "path",
             "name": "limit",
             "required": true,
-            "type": "string",
-            "description": "Limit"
+            "description": "Limit",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -403,6 +471,10 @@
           "400": {
             "description": "Bad Request",
             "content": {}
+          },
+          "404": {
+            "description": "Recipes by category not found.",
+            "content": {}
           }
         }
       }
@@ -411,14 +483,20 @@
       "get": {
         "tags": ["Recipes"],
         "summary": "Recipe by id",
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
-            "type": "string",
-            "description": "Recipe's id"
+            "description": "Recipe's id",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -433,7 +511,7 @@
             }
           },
           "404": {
-            "description": "Not found",
+            "description": "Recipe by id not found.",
             "content": {}
           }
         }
@@ -443,14 +521,20 @@
       "get": {
         "tags": ["Recipes"],
         "summary": "Search recipe by name",
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
             "name": "keyWord",
             "required": true,
-            "type": "string",
-            "description": "Recipe's name"
+            "description": "Recipe's name",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -464,8 +548,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "404": {
+            "description": "Recipes by name not found.",
             "content": {}
           }
         }
@@ -475,7 +559,11 @@
       "get": {
         "tags": ["Recipes"],
         "summary": "Popular recipes list",
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "parameters": [],
         "responses": {
           "200": {
@@ -495,19 +583,27 @@
       "get": {
         "tags": ["Own-recipes"],
         "summary": "Own recipes list",
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "parameters": [
           {
             "in": "query",
             "name": "page",
-            "type": "string",
-            "description": "Own recipe's page"
+            "description": "Own recipe's page",
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "in": "query",
-            "name": "limit",
-            "type": "string",
-            "description": "Own recipe's limit per page"
+            "name": "per_page",
+            "description": "Own recipe's limit per page",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -526,7 +622,11 @@
       "post": {
         "tags": ["Own-recipes"],
         "summary": "Add own recipe",
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "parameters": [],
         "requestBody": {
           "description": "Add own recipe",
@@ -539,7 +639,7 @@
           }
         },
         "responses": {
-          "201": {
+          "200": {
             "description": "Successful operation",
             "content": {
               "application/json": {
@@ -560,14 +660,20 @@
       "get": {
         "tags": ["Own-recipes"],
         "summary": "Get own recipe by id",
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
-            "type": "string",
-            "description": "Recipe's id"
+            "description": "Recipe's id",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -580,24 +686,26 @@
                 }
               }
             }
-          },
-          "404": {
-            "description": "Recipe with id not found",
-            "content": {}
           }
         }
       },
       "delete": {
         "tags": ["Own-recipes"],
         "summary": "Delete own recipe",
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
-            "type": "string",
-            "description": "Recipe's id"
+            "description": "Recipe's id",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -618,11 +726,15 @@
         }
       }
     },
-    "shopping-list": {
+    "/shopping-list": {
       "get": {
         "tags": ["Shopping-list"],
         "summary": "User's shopping list",
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "parameters": [],
         "responses": {
           "200": {
@@ -644,7 +756,11 @@
       "post": {
         "tags": ["Shopping-list"],
         "summary": "Add ingredient to user's shopping list",
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "parameters": [],
         "requestBody": {
           "description": "Recipe's id",
@@ -671,18 +787,24 @@
         }
       }
     },
-    "shopping-list/{ingredientName}": {
+    "/shopping-list/{ingredientName}": {
       "delete": {
         "tags": ["Shopping-list"],
         "summary": "Delete ingredient from shopping list",
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
-            "name": "ingrieientName",
+            "name": "ingredientName",
             "required": true,
-            "type": "string",
-            "description": "Ingredient's name"
+            "description": "Ingredient's name",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -805,6 +927,16 @@
                 "example": ["First recipe", "100 days of using SoYummy"]
               }
             }
+          }
+        }
+      },
+      "LogoutResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "logged out",
+            "example": "logged out"
           }
         }
       },
