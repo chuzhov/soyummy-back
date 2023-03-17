@@ -8,7 +8,7 @@ const getShoppingList = async (req, res, next) => {
   );
 
   if (shoppingList) {
-    res.json({ shoppingList });
+    res.json(shoppingList);
   } else {
     throw HttpError(404, 'List not found');
   }
