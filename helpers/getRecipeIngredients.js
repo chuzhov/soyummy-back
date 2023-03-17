@@ -1,7 +1,7 @@
-const { fetchIngredientsList } = require('./instance');
+const { fetchIngredientsList } = require('../services');
 const { BASE_INGREDIENT_IMG_URL } = require('../config/defaults');
 
-async function getRecipeIngredients(recipe) {
+const getRecipeIngredients = async recipe => {
   const ingredientsNames = [];
   const ingredientsValues = [];
   const allIngredients = await fetchIngredientsList();
@@ -34,6 +34,6 @@ async function getRecipeIngredients(recipe) {
       },
     ];
   }, []);
-}
+};
 
 module.exports = getRecipeIngredients;

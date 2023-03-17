@@ -1,12 +1,17 @@
 const router = require('express').Router();
 const { auth, validateBody } = require('../../middlewares');
-const { getList, addToList, deleteFromList } = require('../../controllers/shopingList/shopingList');
+const { shopingList: ctrl } = require('../../controllers');
 const { addToShopingListSchema } = require('../validation/shopingListSchemas');
 
-router.get('/', auth, getList);
+router.get('/', auth, ctrl.getShopingList);
 
-router.post('/', auth, validateBody(addToShopingListSchema), addToList);
+router.post(
+  '/',
+  auth,
+  validateBody(addToShopingListSchema),
+  ctrl.addToShopingList
+);
 
-router.delete('/:id', auth, deleteFromList);
+router.delete('/:id', auth, ctrl.deleteFromShopingList);
 
 module.exports = router;
