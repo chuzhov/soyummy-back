@@ -19,6 +19,10 @@ const shoppingListSchema = Schema(
       type: String,
       require: true,
     },
+    recipeId: {
+      type: String,
+      require: true,
+    },
   },
   { versionKey: false }
 );
