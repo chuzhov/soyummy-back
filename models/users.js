@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model } = require('mongoose');
 
 const USER_AVATAR_PARAMS = {
   dimensions: {
@@ -6,11 +6,7 @@ const USER_AVATAR_PARAMS = {
     height: 103,
   },
   maxFileSize: 100000,
-  acceptableFileTypes: [
-    "jpg",
-    "jpeg",
-    "png",
-  ],
+  acceptableFileTypes: ['jpg', 'jpeg', 'png'],
 };
 
 const userSchema = Schema(
@@ -31,24 +27,29 @@ const userSchema = Schema(
     avatarURL: {
       type: String,
       required: false,
-      default: "",
+      default: '',
     },
     accessToken: String,
     achievements: {
       type: [String],
       required: false,
-      default: []
+      default: [],
     },
     subscribed: {
       type: Boolean,
       required: false,
-      default: false
-    }
+      default: false,
+    },
+    subscriptionToken: {
+      type: String,
+      required: false,
+      default: '',
+    },
   },
   { timestamps: true }
 );
 
-const User = model("user", userSchema);
+const User = model('user', userSchema);
 
 module.exports = {
   User,
