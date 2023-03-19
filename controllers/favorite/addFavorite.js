@@ -12,6 +12,10 @@ const addFavorite = async (req, res) => {
     { $addToSet: { users: _id } }
   );
 
+  console.log('addFavorite');
+  console.log('isPopular ', isPopular);
+  console.log('id length ', idRecipe.toString().length);
+
   if (idRecipe.toString().length < themealdp_API_ID_LENGTH) {
     const { meals } = await fetchRecipeById(idRecipe);
 
