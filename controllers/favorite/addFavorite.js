@@ -17,6 +17,7 @@ const addFavorite = async (req, res) => {
   console.log('id length ', idRecipe.toString().length);
 
   if (idRecipe.toString().length < themealdp_API_ID_LENGTH) {
+    console.log('id is short, checking outer api');
     const { meals } = await fetchRecipeById(idRecipe);
 
     const { idMeal, strMeal, strInstructions, strMealThumb } = meals[0];
