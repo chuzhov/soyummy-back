@@ -1,7 +1,7 @@
 const { PopularMeals } = require('../../models/popularMeals');
 const { fetchRecipeById } = require('../../services');
 const { Recipe } = require('../../models/recipes');
-const { themealdp_API_ID_LENGTH } = require('../../config/defaults');
+const { HttpError } = require('../../routes/errors/HttpErrors');
 
 const addFavorite = async (req, res) => {
   const { idMeal: idRecipe } = req.body;
@@ -12,7 +12,7 @@ const addFavorite = async (req, res) => {
     { $addToSet: { users: _id } }
   );
 
-  if (idRecipe.toString().length < themealdp_API_ID_LENGTH) {
+  try {
     const { meals } = await fetchRecipeById(idRecipe);
 
     const { idMeal, strMeal, strInstructions, strMealThumb } = meals[0];
@@ -26,11 +26,18 @@ const addFavorite = async (req, res) => {
         users: [_id],
       });
     }
-  } else {
-    const { title, description, imgURL } = await Recipe.findOne({
+  } catch {
+    const ownRecipe = await Recipe.findOne({
       _id: idRecipe,
       owner: _id,
     });
+
+    if (!ownRecipe) {
+      throw HttpError(400, 'Unknown recipe!');
+    }
+
+    const { title, description, imgURL } = ownRecipe;
+
     if (!isPopular) {
       await PopularMeals.create({
         idMeal: idRecipe,

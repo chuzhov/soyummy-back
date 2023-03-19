@@ -9,5 +9,4 @@ module.exports = {
   DEFAULT_AVATAR_iMG_URL:
     'https://res.cloudinary.com/dcpsasqw8/image/upload/v1678720730/assets/avatars/defaul_avatar.png',
   FAV_MEALS_PER_PAGE: 4,
-  themealdp_API_ID_LENGTH: 7,
 };
