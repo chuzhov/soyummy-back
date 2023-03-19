@@ -12,7 +12,13 @@ const addFavorite = async (req, res) => {
     { $addToSet: { users: _id } }
   );
 
+
   try {
+  console.log('addFavorite');
+  console.log('isPopular ', isPopular);
+  console.log('id length ', idRecipe.toString().length);
+
+ 
     const { meals } = await fetchRecipeById(idRecipe);
 
     const { idMeal, strMeal, strInstructions, strMealThumb } = meals[0];
