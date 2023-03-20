@@ -1,9 +1,14 @@
 const express = require('express');
-const { valid } = require('joi');
 
 const { users: ctrl } = require('../../controllers/');
 
-const { validateBody, auth, authLogout, upload } = require('../../middlewares');
+const {
+  validateBody,
+  auth,
+  authLogout,
+  checkEmailToken,
+  upload,
+} = require('../../middlewares');
 
 const schema = require('../validation/');
 
@@ -21,6 +26,8 @@ router.post(
   validateBody(schema.subscribeUser),
   ctrl.sendSubscriptionEmail
 );
+
+router.get('/user-data/subscribe', checkEmailToken, ctrl.addSubscription);
 
 router.post('/logout', authLogout, ctrl.logoutUser);
 
