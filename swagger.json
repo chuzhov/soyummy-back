@@ -165,6 +165,82 @@
         }
       }
     },
+    "/auth/user-data/subscribe": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Get user info",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "token",
+            "required": true,
+            "description": "Subscription token",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDataResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Subscribe user",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [],
+        "requestBody": {
+          "description": "User's email",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": ["email"],
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "User's email",
+                    "format": "email"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "confirmation req sent with status code": {
+                      "type": "string",
+                      "example": 200
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/auth/logout": {
       "post": {
         "tags": ["Auth"],
@@ -181,7 +257,14 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/LogoutResponse"
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "logged out",
+                      "example": "logged out"
+                    }
+                  }
                 }
               }
             }
@@ -301,7 +384,15 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/FavoriteRequest"
+                "required": ["idMeal"],
+                "type": "object",
+                "properties": {
+                  "idMeal": {
+                    "type": "string",
+                    "description": "Recipe's id",
+                    "example": "52878"
+                  }
+                }
               }
             }
           }
@@ -312,7 +403,14 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AddFavoriteResponse"
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Response message",
+                      "example": "Added to favorite"
+                    }
+                  }
                 }
               }
             }
@@ -350,7 +448,14 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DeleteFavoriteResponse"
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Recipe's id",
+                      "example": "52940"
+                    }
+                  }
                 }
               }
             }
@@ -714,7 +819,14 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DeleteOwnRecipeResponse"
+                  "type": "object",
+                  "properties": {
+                    "Deleted: ": {
+                      "type": "string",
+                      "description": "Recipe's id",
+                      "example": "640c84b78097084bc02b85ae"
+                    }
+                  }
                 }
               }
             }
@@ -779,7 +891,14 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AddToShoppingListResponse"
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Response message",
+                      "example": "Added to  list"
+                    }
+                  }
                 }
               }
             }
@@ -813,7 +932,14 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DeleteFromShoppingListResponse"
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Ingredient's id",
+                      "example": "4575"
+                    }
+                  }
                 }
               }
             }
@@ -930,16 +1056,6 @@
           }
         }
       },
-      "LogoutResponse": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "type": "string",
-            "description": "logged out",
-            "example": "logged out"
-          }
-        }
-      },
       "UserDataResponse": {
         "type": "object",
         "properties": {
@@ -962,6 +1078,10 @@
             "type": "string",
             "description": "User's avatar link",
             "example": "User's avatar link"
+          },
+          "subscribed": {
+            "type": "boolean",
+            "example": true
           }
         }
       },
@@ -1169,37 +1289,6 @@
                 "strMealThumb": "https://www.themealdb.com/images/media/meals/wrssvt1511556563.jpg"
               }
             ]
-          }
-        }
-      },
-      "FavoriteRequest": {
-        "required": ["idMeal"],
-        "type": "object",
-        "properties": {
-          "idMeal": {
-            "type": "string",
-            "description": "Recipe's id",
-            "example": "52878"
-          }
-        }
-      },
-      "AddFavoriteResponse": {
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string",
-            "description": "Response message",
-            "example": "Added to favorite"
-          }
-        }
-      },
-      "DeleteFavoriteResponse": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Recipe's id",
-            "example": "52940"
           }
         }
       },
@@ -1802,16 +1891,6 @@
           }
         }
       },
-      "DeleteOwnRecipeResponse": {
-        "type": "object",
-        "properties": {
-          "Deleted: ": {
-            "type": "string",
-            "description": "Recipe's id",
-            "example": "640c84b78097084bc02b85ae"
-          }
-        }
-      },
       "GetOwnRecipeResponse": {
         "type": "object",
         "properties": {
@@ -1958,26 +2037,6 @@
             "type": "string",
             "description": "Ingredient's id",
             "example": "24524"
-          }
-        }
-      },
-      "AddToShoppingListResponse": {
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string",
-            "description": "Response message",
-            "example": "Added to  list"
-          }
-        }
-      },
-      "DeleteFromShoppingListResponse": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Ingredient's id",
-            "example": "4575"
           }
         }
       }
