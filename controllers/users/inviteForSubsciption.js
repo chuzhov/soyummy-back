@@ -15,14 +15,16 @@ const sendSubscriptionEmail = async (req, res) => {
   const { _id } = req.user;
 
   const user = await User.findOne(_id);
-  if (user.subscribed) {
-    throw HttpError(409, `User is already subscribed`);
+  if (user.email === email) {
+    if (user.subscribed) {
+      throw HttpError(409, `User is already subscribed`);
+    }
+  } else {
+    const emailAlreadyExist = await User.findOne({ email });
+    if (emailAlreadyExist) {
+      throw HttpError(409, `The email belongs to another user`);
+    }
   }
-  const emailAlreadyExist = await User.findOne({ email });
-  if (emailAlreadyExist && emailAlreadyExist._id.toString() !== _id) {
-    throw HttpError(409, `The email belongs to another user`);
-  }
-
   const payload = {
     _id,
     email,
