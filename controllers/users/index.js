@@ -4,6 +4,7 @@ const logoutUser = require('./logoutUser');
 const getUserData = require('./getUserData');
 const updateUser = require('./updateUser');
 const sendSubscriptionEmail = require('./inviteForSubsciption');
+const addSubscription = require('./addSubscription');
 const ctrlWrapper = require('../ctrlWrapper');
 
 module.exports = {
@@ -13,4 +14,5 @@ module.exports = {
   logoutUser: ctrlWrapper(logoutUser),
   updateUser: ctrlWrapper(updateUser),
   sendSubscriptionEmail: ctrlWrapper(sendSubscriptionEmail),
+  addSubscription: ctrlWrapper(addSubscription),
 };
