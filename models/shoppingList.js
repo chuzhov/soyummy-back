@@ -6,7 +6,6 @@ const shoppingListSchema = Schema(
       type: String,
       required: true,
     },
-
     strIngredient: {
       type: String,
       require: true,
