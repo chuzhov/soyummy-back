@@ -22,6 +22,9 @@ const popularSchema = Schema(
       type: Array,
       required: true,
     },
+    date: {
+      type:Array,
+    }
   },
   { versionKey: false }
 );

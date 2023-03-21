@@ -58,8 +58,10 @@ const recipeSchema = Schema({
         type: Schema.Types.ObjectId,
         ref: 'user',
         required: true
-    }
-});
+    },  
+    },
+    { timestamps: true }
+);
 
 const Recipe = model("Recipe", recipeSchema);
 
