@@ -2,6 +2,8 @@ const router = require('express').Router();
 const auth = require('../../middlewares/auth');
 const { recipes: ctrl } = require('../../controllers/');
 
+router.get('/main', auth, ctrl.getSetOfRecipes);
+
 router.get('/category/list', auth, ctrl.getCategories);
 
 router.get('/popular', auth, ctrl.getPopularRecipes);
