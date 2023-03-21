@@ -11,7 +11,7 @@ const addToShoppingList = async (req, res, next) => {
     recipeId,
   });
 
-  res.status(201).json({ message: 'Added to  list' });
+  res.status(201).json({ recipeId, strIngredient, weight, image });
 };
 
 module.exports = addToShoppingList;
