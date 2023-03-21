@@ -6,11 +6,13 @@ const fetchRecipesByOwner = async (req, res) => {
   const { page = 1, per_page = 4 } = req.query;
   const meals = await Recipe.find({ owner }, '-owner, -__v ');
 
-  const pagination = setPaginationSlice(page, per_page, meals.length);
+  const arrReverse = meals.reverse();
+
+  const pagination = setPaginationSlice(page, per_page, arrReverse.length);
 
   res.json({
-    totalHits: meals.length,
-    meals: pagination ? meals.slice(pagination.start, pagination.end) : [],
+    totalHits: arrReverse.length,
+    meals: pagination ? arrReverse.slice(pagination.start, pagination.end) : [],
   });
 };
 
