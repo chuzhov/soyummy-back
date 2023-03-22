@@ -536,7 +536,7 @@
     "/recipes/main": {
       "get": {
         "tags": ["Recipes"],
-        "summary": "Recipes list by category",
+        "summary": "Recipes list by four categories",
         "security": [
           {
             "Bearer": []
