@@ -4,6 +4,7 @@ const setSort = require('./setSort');
 const setToken = require('./setToken');
 const sendEmail = require('./sendEmail');
 const getRecipeIngredients = require('./getRecipeIngredients');
+const shuffleArray = require('./shuffleArray');
 
 module.exports = {
   setPagination,
@@ -12,4 +13,5 @@ module.exports = {
   setToken,
   sendEmail,
   getRecipeIngredients,
+  shuffleArray,
 };

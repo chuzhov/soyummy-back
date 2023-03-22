@@ -1,31 +1,15 @@
-const { HttpError } = require('../../routes/errors/HttpErrors');
-const { randomizeArray } = require('../../helpers/randomizeArray');
 const { fetchRecipesByCategory } = require('../../services');
+const { shuffleArray } = require('../../helpers');
 
 const getRecipesByLimit = async (req, res, next) => {
   const { category } = req.params;
 
   const { meals } = await fetchRecipesByCategory(category);
+  const shuffledMeals = meals.length > 2 ? shuffleArray(meals) : meals;
 
   const limit = Number(req.params.limit);
-  //let meals;
 
-  // if (limit === 4 || limit === 12) {
-  //   const randArr = randomizeArray(data.meals.length, limit);
-  //   if (randArr.length === limit) {
-  //     meals = [];
-
-  //     for (const num of randArr) {
-  //       meals.push(data.meals[num]);
-  //     }
-  //   } else {
-  //     meals = data.meals.slice(0, limit);
-  //   }
-
-  res.json({ meals: meals.slice(0, Math.min(meals.length, limit)) });
-  // } else {
-  //   throw HttpError(400);
-  // }
+  res.json({ meals: shuffledMeals.slice(0, Math.min(meals.length, limit)) });
 };
 
 module.exports = getRecipesByLimit;

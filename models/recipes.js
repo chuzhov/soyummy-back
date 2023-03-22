@@ -32,38 +32,41 @@ const ingredientSchema = Schema({
   _id: false,
 });
 
-const recipeSchema = Schema({
-  imgURL: {
-    type: String,
-    default: '',
+const recipeSchema = Schema(
+  {
+    imgURL: {
+      type: String,
+      default: '',
+    },
+    title: {
+      type: String,
+      required: true,
+    },
+    about: {
+      type: String,
+      required: true,
+    },
+    category: {
+      type: String,
+      required: true,
+    },
+    cookingTime: {
+      type: String,
+      required: true,
+    },
+    ingredients: [ingredientSchema],
+    description: {
+      type: String,
+      required: true,
+    },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: 'user',
+      required: true,
+    },
   },
-  title: {
-    type: String,
-    required: true,
-  },
-  about: {
-    type: String,
-    required: true,
-  },
-  category: {
-    type: String,
-    required: true,
-  },
-  cookingTime: {
-    type: String,
-    required: true,
-  },
-  ingredients: [ingredientSchema],
-  description: {
-    type: String,
-    required: true,
-  },
-  owner: {
-    type: Schema.Types.ObjectId,
-    ref: 'user',
-    required: true,
-  },
-});
+  { timestamps: true }
+);
 
 const Recipe = model('Recipe', recipeSchema);
 
