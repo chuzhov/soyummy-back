@@ -3,7 +3,7 @@ const { ShoppingList } = require('../../models/shoppingList');
 const addToShoppingList = async (req, res, next) => {
   const { strIngredient, weight, image, recipeId } = req.body;
 
-  await ShoppingList.create({
+  const { _id } = await ShoppingList.create({
     userId: req.user._id,
     strIngredient,
     weight,
@@ -11,7 +11,7 @@ const addToShoppingList = async (req, res, next) => {
     recipeId,
   });
 
-  res.status(201).json({ recipeId, strIngredient, weight, image });
+  res.status(201).json({ _id, recipeId, strIngredient, weight, image });
 };
 
 module.exports = addToShoppingList;
