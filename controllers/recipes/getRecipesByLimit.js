@@ -5,7 +5,7 @@ const { fetchRecipesByCategory } = require('../../services');
 const getRecipesByLimit = async (req, res, next) => {
   const { category } = req.params;
 
-  const data = await fetchRecipesByCategory(category);
+  const { meals } = await fetchRecipesByCategory(category);
 
   const limit = Number(req.params.limit);
   //let meals;
