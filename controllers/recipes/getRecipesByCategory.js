@@ -3,8 +3,7 @@ const { fetchRecipesByCategory } = require('../../services');
 const getRecipesByCategory = async (req, res) => {
   const { categoryName } = req.params;
 
-  const data = await fetchRecipesByCategory(categoryName);
-  const meals = data.meals;
+  const { meals } = await fetchRecipesByCategory(categoryName);
 
   res.json({ meals });
 };
