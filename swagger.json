@@ -919,7 +919,7 @@
         }
       }
     },
-    "/shopping-list/{ingredientName}": {
+    "/shopping-list/{id}": {
       "delete": {
         "tags": ["Shopping-list"],
         "summary": "Delete ingredient from shopping list",
@@ -2052,35 +2052,35 @@
             "example": "24524"
           }
         }
-      }
-    },
-    "AddToShoppingListResponse": {
-      "type": "object",
-      "properties": {
-        "_id": {
-          "type": "string",
-          "description": "Ingredient id",
-          "example": "324253egdg34"
-        },
-        "strIngredient": {
-          "type": "string",
-          "description": "Ingredient's name",
-          "example": "Butter Beans"
-        },
-        "weight": {
-          "type": "string",
-          "description": "Ingredient's quantity",
-          "example": "3"
-        },
-        "image": {
-          "type": "string",
-          "description": "Ingredient's image",
-          "example": "https://www.themealdb.com/images/ingredients/Butter%20Beans.png"
-        },
-        "recipeId": {
-          "type": "string",
-          "description": "Recipe's id",
-          "example": "24524"
+      },
+      "AddToShoppingListResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Ingredient id",
+            "example": "string"
+          },
+          "strIngredient": {
+            "type": "string",
+            "description": "Ingredient's name",
+            "example": "Butter Beans"
+          },
+          "weight": {
+            "type": "string",
+            "description": "Ingredient's quantity",
+            "example": "3"
+          },
+          "image": {
+            "type": "string",
+            "description": "Ingredient's image",
+            "example": "https://www.themealdb.com/images/ingredients/Butter%20Beans.png"
+          },
+          "recipeId": {
+            "type": "string",
+            "description": "Recipe's id",
+            "example": "24524"
+          }
         }
       }
     },
