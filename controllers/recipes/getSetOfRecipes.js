@@ -23,7 +23,7 @@ const getSetOfRecipes = async (req, res, next) => {
     responseArray = [];
   }
   res.json({
-    mainCtegories: mealsByCategory,
+    mainCategories: mealsByCategory,
   });
 };
 
