@@ -1,10 +1,11 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
+global.TextEncoder = require('fast-text-encoding').TextEncoder;
 
-const app = require("./app");
+const app = require('./app');
 
 const { DB_HOST, PORT = 4000 } = process.env;
 
-mongoose.set("strictQuery", true);
+mongoose.set('strictQuery', true);
 
 mongoose
   .connect(DB_HOST)
@@ -14,7 +15,7 @@ mongoose
       `Database connection successfully established.\nListening port ${PORT}`
     );
   })
-  .catch((error) => {
+  .catch(error => {
     process.exit(1);
   });
 
