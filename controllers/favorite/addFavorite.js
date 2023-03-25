@@ -1,13 +1,15 @@
+const { mongoose } = require('mongoose');
+const { User } = require('../../models');
 const { PopularMeals } = require('../../models/popularMeals');
-const { fetchRecipeById } = require('../../services');
 const { Recipe } = require('../../models/recipes');
+const { fetchRecipeById } = require('../../services');
 const { themealdp_API_ID_LENGTH } = require('../../config/defaults');
 
 const addFavorite = async (req, res) => {
   const { idMeal: idRecipe } = req.body;
   const { _id } = req.user;
 
-  const isPopular = await PopularMeals.findOneAndUpdate(
+  let isPopular = await PopularMeals.findOneAndUpdate(
     { idMeal: idRecipe },
     { $addToSet: { users: _id } }
   );
@@ -18,7 +20,7 @@ const addFavorite = async (req, res) => {
     const { idMeal, strMeal, strInstructions, strMealThumb } = meals[0];
 
     if (!isPopular) {
-      await PopularMeals.create({
+      isPopular = await PopularMeals.create({
         idMeal,
         strMeal,
         strInstructions,
@@ -32,7 +34,7 @@ const addFavorite = async (req, res) => {
       owner: _id,
     });
     if (!isPopular) {
-      await PopularMeals.create({
+      isPopular = await PopularMeals.create({
         idMeal: idRecipe,
         strMeal: title,
         strInstructions: description,
@@ -40,6 +42,18 @@ const addFavorite = async (req, res) => {
         users: [_id],
       });
     }
+  }
+
+  if (isPopular) {
+    const newFavoriteRecipe = {
+      mealId: mongoose.Types.ObjectId(isPopular._id),
+      addedOn: new Date(),
+    };
+
+    await User.findOneAndUpdate(
+      { _id },
+      { $addToSet: { favoriteMeals: newFavoriteRecipe } }
+    );
   }
 
   res.status(201).json({ message: 'Added to favorite' });
