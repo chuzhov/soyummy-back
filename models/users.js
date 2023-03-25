@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose');
+const { mongoose, Schema, model } = require('mongoose');
 
 const USER_AVATAR_PARAMS = {
   dimensions: {
@@ -35,6 +35,20 @@ const userSchema = Schema(
       required: false,
       default: [],
     },
+    favoriteMeals: [
+      {
+        _id: false,
+        mealId: {
+          type: mongoose.Schema.Types.ObjectId,
+          required: true,
+          ref: 'popularMeal',
+        },
+        addedOn: {
+          type: Date,
+          default: new Date(),
+        },
+      },
+    ],
     subscribed: {
       type: Boolean,
       required: false,
